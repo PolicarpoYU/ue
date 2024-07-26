@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='ulianovorbit',
-    version='1.1.o',
+    version='1.1.0',
     description='Library for handling Ulianov Orbit functions',
     long_description=long_description,
     long_description_content_type='text/markdown',
