@@ -91,7 +91,93 @@ This example demonstrates how to use the `ulianovellipse` package to compare a s
 ## Example of use 01:
 ### Drawing a Poliana Ellipitc Flower 
 
+### Example of use 02:
+### Drawing a Poliana Elliptic Flower
 
+The `Poliana_Flower` function creates a beautiful, flower-like pattern using a combination of standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ulianovellipse import eu
+
+def Poliana_Flower(a0, b0, a1, b1, ptn=24, gp=0, cla1="green", cla2="red", clb1="yellow", clb2="blue", num_flor_user=0):
+    if b0 > a0:
+        a0, b0 = b0, a0  
+    if b1 > a1:
+        a1, b1 = b1, a1  
+
+    plt.figure(figsize=(10, 6))
+    for j in range(4):
+        giroEL = 0 
+        if j == 1:
+            giroEL = gp / 180 * np.pi / ptn
+        if j == 0 or j == 2:
+            a = a0
+            b = b0
+            cl1 = cla1 
+            cl2 = cla2
+        else:     
+            cl1 = clb1
+            cl2 = clb2
+            a = a1
+            b = b1 
+
+        for i in range(ptn):
+            ang_ellipse = (giroEL + (2 * np.pi / ptn * i)) * 180 / np.pi
+            SE_x, SE_y = eu.ellipse_ab(a, b, ang_ellipse_degrees=ang_ellipse)
+            UE_x, UE_y = eu.ulianov_ellipse_ab(a, b, ang_ellipse_degrees=ang_ellipse)
+            if j > 1:  
+                if cl1 != "none":
+                    plt.plot(np.array(SE_x), SE_y, color=cl1)
+            else:
+                if cl2 != "none":   
+                    plt.plot(np.array(UE_x), UE_y, color=cl2)
+
+    plt.ylabel("y")
+    plt.xlabel("x")
+    plt.axis('off')
+    plt.axis('equal')
+    plt.title(f"PoliFlower N$^0${num_flor_user}: a0={a0}, b0={b0}, a1={a1}, b1={b1}, ptn={ptn}, G={gp}$^o$, C1={cla1}, C2={cla2}, C3={clb1}, C4={clb2}")
+    plt.savefig(f"PolianaFlower{num_flor_user}.jpg")
+    plt.show()
+
+# Example usage for drawing Poliana Flowers
+Poliana_Flower(a0=80, b0=60, a1=30, b1=4, ptn=36, gp=0, cla1="green", cla2="red", clb1="black", clb2="blue", num_flor_user=24)
+Poliana_Flower(a0=80, b0=30, a1=60, b1=40, ptn=24, gp=0, cla1="green", cla2="red", clb1="black", clb2="blue", num_flor_user=5)
+Poliana_Flower(a0=240, b0=20, a1=80, b1=10, ptn=36, gp=180, cla1="green", cla2="red", clb1="black", clb2="blue", num_flor_user=77)
+```
+
+### Explanation of the Code
+
+**Imports:**
+
+- `numpy` and `matplotlib.pyplot` are standard libraries for numerical calculations and plotting in Python.
+- `eu` is imported from the `ulianovellipse` package, providing functions to compute parameters for the Ulianov ellipse.
+
+**Function `Poliana_Flower`:**
+
+- **Parameters:**
+  - `a0`, `b0`: Semi-major and semi-minor axes of the outer ellipses.
+  - `a1`, `b1`: Semi-major and semi-minor axes of the inner ellipses.
+  - `ptn`: Number of petals.
+  - `gp`: Rotation angle for the petals.
+  - `cla1`, `cla2`, `clb1`, `clb2`: Colors for the outer and inner ellipses.
+
+- **Calculations:**
+  - `ang_ellipse`: Calculated angle for rotating each ellipse.
+
+- **Plotting:**
+  - Ellipses are plotted with specified colors, creating a flower-like pattern.
+  - The plot includes the title with parameters used to create the flower.
+
+This example demonstrates how to create a complex, visually appealing pattern using both standard and Ulianov ellipses, highlighting the versatility of the `ulianovellipse` package.
+
+**Visual Examples:**
+
+1. ![PoliFlower N°24](https://github.com/PolicarpoYU/ue/blob/main/polianaflower1.png)
+2. ![PoliFlower N°77](https://github.com/PolicarpoYU/ue/blob/main/polianaflower2.png)
+3. ![PoliFlower N°5](https://github.com/PolicarpoYU/ue/blob/main/polianaflower.png)
 
 
 
