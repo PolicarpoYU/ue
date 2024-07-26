@@ -20,8 +20,9 @@ pip install numpy
 pip install ulianovellipse
 ```
 
-## Example of use:
-
+## Example of use 01:
+### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions
+### and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -87,5 +88,9 @@ two_ellipses(5, 3)
   - The plot includes labels for the axes, a legend, and a title displaying the parameters of the ellipses.
 
 This example demonstrates how to use the `ulianovellipse` package to compare a standard ellipse with an Ulianov ellipse, providing a visual representation of the differences.
+
+## Example of use 01:
+### Drawing a Poliana Ellipitc Flower 
+
 
 
