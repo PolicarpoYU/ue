@@ -21,8 +21,7 @@ pip install ulianovellipse
 ```
 
 ## Example of use 01:
-### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions
-### and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
+### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
