@@ -1,6 +1,3 @@
-Aqui está o conteúdo completo para o seu arquivo `README.md` sem as tags de formatação de código que poderiam estar causando problemas:
-
-```
 # UlianovEllipse
 
 ## Overview
@@ -90,5 +87,5 @@ two_ellipses(5, 3)
   - The plot includes labels for the axes, a legend, and a title displaying the parameters of the ellipses.
 
 This example demonstrates how to use the `ulianovellipse` package to compare a standard ellipse with an Ulianov ellipse, providing a visual representation of the differences.
-```
+
 
