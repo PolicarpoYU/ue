@@ -13,7 +13,7 @@ studies of elliptical phenomena.
 Available functions and methods:
 - last_functon_steps
 - lim_ue
-- calc_Ue
+- calc_ue
 - calc_ab
 - cosuell
 - sinuell
@@ -60,7 +60,7 @@ class UlianovEllipse:
             Ue = 1 / self.Lim_Ue
         return Ue
 
-    def calc_Ue(self, a, b):
+    def calc_ue(self, a, b):
         """
         Calculates R0 and Ue based on the semi-major axis (a) and semi-minor axis (b).
 
@@ -408,7 +408,7 @@ class UlianovEllipse:
         UE_x (ndarray): X-coordinates of the ellipse.
         UE_y (ndarray): Y-coordinates of the ellipse.
         """
-        R0, Ue = self.calc_Ue(a, b)
+        R0, Ue = self.calc_ue(a, b)
         return self.ulianov_ellipse_ue(R0, Ue, delta_ang, ang_ini_degrees, ang_fim_degrees, ang_ellipse_rad, ang_ellipse_degrees)
 
     def ellipse_ab(self, a, b, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0):

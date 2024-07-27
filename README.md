@@ -7,7 +7,7 @@ The **UlianovEllipse** library provides a comprehensive set of functions and cla
 ## Key Features
 
 - **Ulianov Elliptical Cosine and Sine Functions:** These functions (`cosuell`, `sinuell`) are used to calculate the cosine and sine of an angle for Ulianov ellipses, which differ from standard trigonometric functions.
-- **Parameter Conversion:** Methods like `calc_Ue` and `calc_ab` convert between different sets of parameters (e.g., semi-major and semi-minor axes, Ulianov parameters).
+- **Parameter Conversion:** Methods like `calc_ue` and `calc_ab` convert between different sets of parameters (e.g., semi-major and semi-minor axes, Ulianov parameters).
 - **Axis Rotation:** The `rotate_axis` function allows for the rotation of coordinates, useful in transforming elliptical data.
 - **Elliptical Path Calculations:** Functions such as `ulianov_ellipse_ue` and `ulianov_ellipse_ab` provide tools for calculating points along an ellipse using various parameterizations.
 
@@ -29,7 +29,7 @@ from ulianovellipse import eu
 
 def two_ellipses(a, b, ang_ini_degrees=0, ang_fim_degrees=360, npassos=1000):
     # Calculate the focal distance R0 and the parameter Ue for the Ulianov ellipse
-    R0, Ue = eu.calc_Ue(a, b)
+    R0, Ue = eu.calc_ue(a, b)
 
     # Generate angles from ang_ini_degrees to ang_fim_degrees
     alpha = np.linspace(ang_ini_degrees * np.pi / 180, ang_fim_degrees * np.pi / 180, npassos)
@@ -77,7 +77,7 @@ two_ellipses(5, 3)
   - `npassos`: Number of steps for the angle, providing smoothness to the ellipse.
 
 - **Calculations:**
-  - `R0`, `Ue`: Parameters for the Ulianov ellipse calculated using the function `calc_Ue`.
+  - `R0`, `Ue`: Parameters for the Ulianov ellipse calculated using the function `calc_ue`.
   - `alpha`: Array of angles in radians from `ang_ini_degrees` to `ang_fim_degrees`.
   - `UE_x`, `UE_y`: X and Y coordinates for the Ulianov ellipse, calculated using functions `cosuell` and `sinuell`.
   - `SE_x`, `SE_y`: X and Y coordinates for the standard ellipse, calculated using standard trigonometric functions.

@@ -4,7 +4,7 @@ from ulianovellipse import eu
 
 def two_ellipses(a, b, ang_ini_degrees=0, ang_fim_degrees=360, npassos=1000):
     # Calculate the focal distance R0 and the parameter Ue for the Ulianov ellipse
-    R0, Ue = eu.calc_Ue(a, b)
+    R0, Ue = eu.calc_ue(a, b)
 
     # Generate angles from ang_ini_degrees to ang_fim_degrees
     alpha = np.linspace(ang_ini_degrees * np.pi / 180, ang_fim_degrees * np.pi / 180, npassos)
