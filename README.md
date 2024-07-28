@@ -518,26 +518,25 @@ For detailed information and theoretical background on the Ulianov Ullipse Model
 
 Ulianov, P. Y., "Ulianov Orbital Model. Describing Kepler Orbits Using Only Five Parameters and Using Ulianov Elliptical Trigonometric Function: Elliptical Cosine and Elliptical Sine," June 2024. Available at: [Academia](https://www.academia.edu/122397626)
 
+# Examples of Use
 
-# Examples of use
-
-In directory main\examples are interesting example programs for using the ulianovellipse library and do the following:
+In the `main/examples` directory, there are various interesting programs demonstrating the use of the UlianovEllipse library. These programs include:
 
 1. **[twoellipses.py](#example-of-use-01-twoellipsespy)**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
 
-2. **[rotateellipses.py](#example-of-use-04-rotateellipsespy)**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
+2. **[polianaflower.py](#example-of-use-02-polianaflowerpy)**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
 
 3. **[allellipses.py](#example-of-use-03-allellipsespy)**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
 
-4. **[polianaflower.py](#example-of-use-02-polianaflowerpy)**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
+4. **[rotateellipses.py](#example-of-use-04-rotateellipsespy)**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
 
 5. **[testarctannuell.py](#example-of-use-05-testarctannuellpy)**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
 
 6. **[testarctannuellue.py](#example-of-use-06-testarctannuelluepy)**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
 
-7. **dudaflower.py**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
+7. **[dudaflower.py](#example-of-use-07-dudaflowerpy)**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
 
-8. **saleteflower.py**: Similar to dudaflower.py, but using different parameters to create a flower pattern with Ulianov ellipses and a distinct color palette.
+8. **[saleteflower.py](#example-of-use-08-saleteflowerpy)**: Similar to dudaflower.py, but using different parameters to create a flower pattern with Ulianov ellipses and a distinct color palette.
 
 ## Example of use 01: twoellipses.py
 ### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
@@ -1040,6 +1039,8 @@ Finally, two types of errors are calculated:
 This figure illustrates that the errors in the `arctanuell` function are in the range of 10^{-12}%. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
 ## Example of Use 06: testarctannuellue.py
+
+
 ### Testing Resolution Errors in the Function `arctanuell_ue`
 
 The `arctanuell_ue` function is a key component of the **UlianovEllipse** library. It calculates the angle and the Ulianov Ellipse parameter  Ue  from given  x  and  y  coordinates and a reference distance  R_0 . This function is essential for accurately determining the properties of an ellipse based on its geometric parameters.
@@ -1186,5 +1187,193 @@ The graph produced shows the errors in both alpha and  Ue  across different test
 ![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/errorarctanuellUe.png)
 
 This figure illustrates that the errors in the `arctanuell_ue` function are in the range of 10^{-9}%. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
+
+
+## Example of Use 07: Duda Flower
+
+The `Duda_Flower` function creates a flower-like pattern using a combination of standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ulianovellipse import eu
+
+def Duda_Flower(a, b, ptn=24, gp=0, cla1="green", cla2="red", num_flor_user=0):
+    """
+    Plots a simplified "Duda Flower" pattern using standard and Ulianov elliptical functions.
+
+    Parameters:
+    a (float): Semi-major axis length for the ellipses.
+    b (float): Semi-minor axis length for the ellipses.
+    ptn (int): Number of petals (default is 24).
+    gp (float): Rotation angle in degrees for the petals (default is 0).
+    cla1 (str): Color for standard ellipses (default is "green").
+    cla2 (str): Color for Ulianov ellipses (default is "red").
+    num_flor_user (int): Identifier for the flower pattern (default is 0).
+
+    The function generates a plot of a flower pattern with two layers of ellipses.
+    """
+    # Ensure a >= b for correct ellipse plotting
+    if b > a:
+        a, b = b, a  
+
+    # Set up the plot
+    plt.figure(figsize=(10, 6))
+
+    # First layer with standard ellipses
+    for i in range(ptn):
+        ang_ellipse = (gp / 180 * np.pi / ptn + (2 * np.pi / ptn * i)) * 180 / np.pi
+        SE_x, SE_y = eu.ellipse_ab(a, b, ang_ellipse_degrees=ang_ellipse)
+        if cla1 != "none":
+            plt.plot(np.array(SE_x), SE_y, color=cla1)
+
+    # Second layer with Ulianov ellipses
+    for i in range(ptn):
+        ang_ellipse = (gp / 180 * np.pi / ptn + (2 * np.pi / ptn * i)) * 180 / np.pi
+        UE_x, UE_y = eu.ulianov_ellipse_ab(a, b, ang_ellipse_degrees=ang_ellipse)
+        if cla2 != "none":
+            plt.plot(np.array(UE_x), UE_y, color=cla2)
+
+    # Finalize plot settings
+    plt.ylabel("y")
+    plt.xlabel("x")
+    plt.axis('off')
+    plt.axis('equal')
+    plt.title(f"Duda Flower N$^0${num_flor_user}: a={a},b={b},NP={ptn},G={gp}$^o$,C1={cla1},C2={cla2}")
+    plt.savefig(f"DudaFlower{num_flor_user}.jpg")  # Save the plot as an image
+    plt.show()
+
+# Example usage with different parameters for each flower
+Duda_Flower(a=80, b=60, ptn=36, gp=0, cla1='green', cla2='red', num_flor_user=124)
+Duda_Flower(a=240, b=30, ptn=24, gp=180, cla1='red', cla2='blue', num_flor_user=102)
+Duda_Flower(a=80, b=30, ptn=24, gp=0, cla1='green', cla2='red', num_flor_user=103)
+Duda_Flower(a=50, b=40, ptn=24, gp=0, cla1='green', cla2='blue', num_flor_user=104)
+Duda_Flower(a=80, b=30, ptn=24, gp=0, cla1='green', cla2='red', num_flor_user=105)
+Duda_Flower(a=240, b=20, ptn=36, gp=180, cla1='green', cla2='red', num_flor_user=177)
+Duda_Flower(a=240, b=30, ptn=24, gp=180, cla1='green', cla2='blue', num_flor_user=107)
+Duda_Flower(a=80, b=30, ptn=24, gp=180, cla1='green', cla2='red', num_flor_user=108)
+Duda_Flower(a=50, b=40, ptn=24, gp=180, cla1='green', cla2='blue', num_flor_user=109)
+Duda_Flower(a=80, b=30, ptn=24, gp=180, cla1='green', cla2='blue', num_flor_user=133)
+```
+
+### Explanation of the Code
+
+**Imports:**
+
+- `numpy` and `matplotlib.pyplot` are standard libraries for numerical calculations and plotting in Python.
+- `eu` is imported from the `ulianovellipse` package, providing functions to compute parameters for the Ulianov ellipse.
+
+**Function `Duda_Flower`:**
+
+- **Parameters:**
+  - `a`, `b`: Semi-major and semi-minor axes of the ellipses.
+  - `ptn`: Number of petals.
+  - `gp`: Rotation angle for the petals.
+  - `cla1`, `cla2`: Colors for the ellipses.
+
+- **Calculations:**
+  - `ang_ellipse`: Calculated angle for rotating each ellipse.
+
+- **Plotting:**
+  - Ellipses are plotted with specified colors, creating a flower-like pattern.
+  - The plot includes the title with parameters used to create the flower.
+
+This example demonstrates how to create a complex, visually appealing pattern using both standard and Ulianov ellipses, highlighting the versatility of the `ulianovellipse` package.
+
+---
+
+## Example of Use 08: Salete Flower
+
+The `Salete_Flower` function creates a flower-like pattern using standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ulianovellipse import eu
+
+def Salete_Flower(a, b, R0, Ue, ptn=24, gp=0, cla1="green", cla2="red", num_flor_user=0):
+    """
+    Plots a "Salete Flower" pattern using standard elliptical functions for the first layer and Ulianov elliptical functions for the second layer.
+
+    Parameters:
+    a (float): Semi-major axis length for the first layer ellipses.
+    b (float): Semi-minor axis length for the first layer ellipses.
+    R0 (float): Minimum orbital distance for the Ulianov ellipses.
+    Ue (float): Ulianov Ellipse Parameter for the Ulianov ellipses.
+    ptn (int): Number of petals (default is 24).
+    gp (float): Rotation angle in degrees for the petals (default is 0).
+    cla1 (str): Color for standard ellipses (default is "green").
+    cla2 (str): Color for Ulianov ellipses (default is "red").
+    num_flor_user (int): Identifier for the flower pattern (default is 0).
+
+    The function generates a plot of a flower pattern with two layers: one using standard ellipses and the other using Ulianov ellipses.
+    """
+    # Ensure a >= b for correct ellipse plotting
+    if b > a:
+        a, b = b, a  
+
+    # Set up the plot
+    plt.figure(figsize=(10, 6))
+
+    # First layer with standard ellipses
+    for i in range(ptn):
+        ang_ellipse = (gp / 180 * np.pi / ptn + (2 * np.pi / ptn * i)) * 180 / np.pi
+        SE_x, SE_y = eu.ellipse_ab(a, b, ang_ellipse_degrees=ang_ellipse)
+        if cla1 != "none":
+            plt.plot(np.array(SE_x), SE_y, color=cla1)
+
+    # Second layer with Ulianov ellipses
+    for i in range(ptn):
+        ang_ellipse = (gp / 180 * np.pi / ptn + (2 * np.pi / ptn * i)) * 180 / np.pi
+        UE_x, UE_y = eu.ulianov_ellipse_ue(R0, Ue, ang_ellipse_degrees=ang_ellipse)
+        if cla2 != "none":
+            plt.plot(np.array(UE_x), UE_y, color=cla2)
+
+    # Finalize plot settings
+    plt.ylabel("y")
+    plt.xlabel("x")
+    plt.axis('off')
+    plt.axis('equal')
+    plt.title(f"Salete Flower N$^0${num_flor_user}: a={a},b={b},R0={R0},Ue={Ue},NP={ptn},G={gp}$^o$,C1={cla1},C2={cla2}")
+    plt.savefig(f"SaleteFlower{num_flor_user}.jpg")  # Save the plot as an image
+    plt.show()
+
+# Example usage with different parameters for each flower
+Salete_Flower(a=80, b=60, R0=0.268, Ue=1.991, ptn=36, gp=0, cla1='green', cla2='red', num_flor_user=224)
+Salete_Flower(a=
+
+240, b=30, R0=2.25, Ue=1.975, ptn=24, gp=180, cla1='red', cla2='blue', num_flor_user=202)
+Salete_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=0, cla1='green', cla2='red', num_flor_user=203)
+Salete_Flower(a=50, b=40, R0=23.4, Ue=1.575, ptn=24, gp=0, cla1='green', cla2='red', num_flor_user=204)
+Salete_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=0, cla1='green', cla2='red', num_flor_user=205)
+Salete_Flower(a=240, b=20, R0=0.627, Ue=1.992, ptn=36, gp=180, cla1='green', cla2='red', num_flor_user=277)
+Salete_Flower(a=240, b=30, R0=2.25, Ue=1.975, ptn=24, gp=180, cla1='green', cla2='red', num_flor_user=207)
+Salete_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=180, cla1='green', cla2='red', num_flor_user=208)
+Salete_Flower(a=50, b=40, R0=23.4, Ue=1.575, ptn=24, gp=180, cla1='green', cla2='red', num_flor_user=209)
+Salete_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=180, cla1='green', cla2='red', num_flor_user=233)
+```
+
+### Explanation of the Code
+
+**Imports:**
+
+- `numpy` and `matplotlib.pyplot` are standard libraries for numerical calculations and plotting in Python.
+- `eu` is imported from the `ulianovellipse` package, providing functions to compute parameters for the Ulianov ellipse.
+
+**Function `Salete_Flower`:**
+
+- **Parameters:**
+  - `a`, `b`: Semi-major and semi-minor axes for the standard ellipses.
+  - `R0`, `Ue`: Parameters for the Ulianov ellipses.
+  - `ptn`: Number of petals.
+  - `gp`: Rotation angle for the petals.
+  - `cla1`, `cla2`: Colors for the standard and Ulianov ellipses.
+
+- **Calculations:**
+  - `ang_ellipse`: Calculated angle for rotating each ellipse.
+
+- **Plotting:**
+  - Ellipses are plotted with specified colors, creating a flower-like pattern.
+  - The plot includes the title with parameters used to create the flower.
 
 
