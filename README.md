@@ -23,7 +23,36 @@ pip install numpy
 pip install ulianovellipse
 ```
 
-## Example of use 01:
+## Examples of use
+In directory main\examples some python proram are presented:
+allellipses.py
+dudaflower.py
+polianaflower.py
+rotateellipses.py
+saleteflower.py
+testarctannuell.py
+testarctannuellue.py
+twoellipses.py
+
+These are interesting example programs for using the ulianovellipse library and do the following:
+
+1. **allellipses.py**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
+
+2. **dudaflower.py**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
+
+3. **polianaflower.py**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
+
+4. **rotateellipses.py**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
+
+5. **saleteflower.py**: Similar to dudaflower.py, but using different parameters to create a flower pattern with Ulianov ellipses and a distinct color palette.
+
+6. **testarctannuell.py**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
+
+7. **testarctannuellue.py**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
+
+8. **twoellipses.py**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
+
+## Example of use 01: twoellipses.py
 ### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
 ```python
 import numpy as np
@@ -93,7 +122,7 @@ two_ellipses(5, 3)
 
 This example demonstrates how to use the `ulianovellipse` package to compare a standard ellipse with an Ulianov ellipse, providing a visual representation of the differences.
 
-## Example of use 02:
+## Example of use 02: polianaflower.py
 ### Drawing a Poliana Elliptic Flower
 
 The `Poliana_Flower` function creates a beautiful, flower-like pattern using a combination of standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
@@ -193,7 +222,7 @@ This example demonstrates how to create a complex, visually appealing pattern us
 3. ![PoliFlower N°5](https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower.png)
 
 
-## Example of Use 03:
+## Example of Use 03: allellipses.py
 ### Drawing Ellipses, Parabolas, and Hyperboles
 
 This example demonstrates how to use the `ulianovellipse` library to plot a series of Ulianov ellipses, along with parabolic and hyperbolic paths, by varying the Ulianov Ellipse Parameter ( Ue ).
@@ -290,7 +319,7 @@ The plot shows various conic sections (ellipses, parabolas, hyperbolas) dependin
 
 This example showcases the versatility of the `ulianovellipse` library in visualizing different conic sections, demonstrating the unique properties of the Ulianov Ellipse Parameter.
 
-## Example of Use 04:  
+## Example of Use 04: rotateellipses.py
 ### Drawing Incomplete, Bicolor, and Rotated Ellipses
 
 This example illustrates how to use the `ulianovellipse` library to draw incomplete, bicolor, and rotated ellipses. The functions provided allow for the visualization of various sections of ellipses with different rotations and color schemes.
@@ -362,7 +391,7 @@ The following image demonstrates the output of the three functions with differen
 This figure illustrates various elliptical shapes and transformations, showcasing the unique capabilities of the `ulianovellipse` package for detailed and customizable visualizations.
 
 
-## Example of Use 05:
+## Example of Use 05: testarctannuell.py
 ### Testing Resolution Errors in the Function `arctanuell`
 
 The `arctanuell` function is a key component of the **UlianovEllipse** library, used to calculate the angle and distance for a given set of coordinates and Ulianov Ellipse parameter  Ue . This function is particularly useful in applications where precise calculations of elliptical parameters are required.
@@ -523,7 +552,8 @@ Finally, two types of errors are calculated:
 
 This figure illustrates that the errors in the `arctanuell` function are in the range of 10^{-12}%. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
-## Example of Use 06: Testing Resolution Errors in the Function `arctanuell_ue`
+## Example of Use 06: testarctannuellue.py
+### Testing Resolution Errors in the Function `arctanuell_ue`
 
 The `arctanuell_ue` function is a key component of the **UlianovEllipse** library. It calculates the angle and the Ulianov Ellipse parameter  Ue  from given  x  and  y  coordinates and a reference distance  R_0 . This function is essential for accurately determining the properties of an ellipse based on its geometric parameters.
 

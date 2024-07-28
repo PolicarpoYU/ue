@@ -31,6 +31,15 @@ Available functions and methods:
 See examples of use in: 
 https://github.com/PolicarpoYU/ue  
 directory:examples
+programs:
+allellipses.py
+dudaflower.py
+polianaflower.py
+rotateellipses.py
+saleteflower.py
+testarctannuell.py
+testarctannuellue.py
+twoellipses.py
 """
 
 
