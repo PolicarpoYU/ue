@@ -5,13 +5,13 @@ Example of Polina Elliptical Flowers, Duda Elliptical Flowers and Salate Ellipti
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
 </p>
 
-Polina Elliptical Flower:
+**[Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy)** Digital flower created by a python code that has a elliptical complex flower pattern, using two layers of ellipses (standard ellipse and Ulianov ellipse) with different size and color parameters
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
 </p>
 
 
-Polina Elliptical Flower zoom:
+**[Poliana Elliptical Flover Zoom:](#example-of-use-02-polianaflowerpy)**
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/PolianaFlowerZoom.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
 </p>
