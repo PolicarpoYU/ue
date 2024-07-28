@@ -60,7 +60,7 @@ def two_ellipses(a, b, ang_ini_degrees=0, ang_fim_degrees=360, npassos=1000):
 two_ellipses(5, 3)
 ```
 
-![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/ExampleTwoEll.png)
+![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/ExampleTwoEll.png)
 
 
 ### Explanation of the Code
@@ -184,9 +184,9 @@ This example demonstrates how to create a complex, visually appealing pattern us
 
 **Visual Examples:**
 
-1. ![PoliFlower N°24](https://raw.githubusercontent.com/PolicarpoYU/images/polianaflower1.png)
-2. ![PoliFlower N°77](https://raw.githubusercontent.com/PolicarpoYU/images/polianaflower2.png)
-3. ![PoliFlower N°5](https://raw.githubusercontent.com/PolicarpoYU/images/polianaflower.png)
+1. ![PoliFlower N°24](https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower1.png)
+2. ![PoliFlower N°77](https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png)
+3. ![PoliFlower N°5](https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower.png)
 
 
 ## Example of Use 03:
@@ -282,7 +282,7 @@ all_ellipses()
 
 The plot shows various conic sections (ellipses, parabolas, hyperbolas) depending on the value of \( U_e \). These curves are essential in orbital mechanics and physics, representing different types of orbital paths.
 
-![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/allellipses.png)
+![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/allellipses.png)
 
 This example showcases the versatility of the `ulianovellipse` library in visualizing different conic sections, demonstrating the unique properties of the Ulianov Ellipse Parameter.
 
@@ -353,7 +353,7 @@ def Plot_Two_Ellipses_rotate_rad_ue(R0, Ue, ang_ellipse=0):
 
 The following image demonstrates the output of the three functions with different parameters, highlighting the versatility of the Ulianov elliptical model for creating complex visualizations of ellipses with rotations and incomplete sections.
 
-![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/incompleteroatateellipses.png)
+![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/incompleteroatateellipses.png)
 
 This figure illustrates various elliptical shapes and transformations, showcasing the unique capabilities of the `ulianovellipse` package for detailed and customizable visualizations.
 
@@ -514,7 +514,7 @@ agn, R0n = eu.arctanuell(ey, ex, Ue)
 Finally, two types of errors are calculated:
 - **Error in Angle (degrees):** `errogr = (agngr - aggr)`
 - **Error in \( R_0 \) (percentage):** `errorR0 = (R0 - R0n) / R0 * 100`
-![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/errorarctanuell.png)
+![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/errorarctanuell.png)
 
 
 This figure illustrates that the errors in the `arctanuell` function are in the range of \(10^{-12}\%\). This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
@@ -662,7 +662,7 @@ These plots provide insights into the accuracy and stability of the `arctanuell_
 ### Test Results
 The graph produced shows the errors in both alpha and \( U_e \) across different test cases, helping to identify any precision issues or inconsistencies in the function's implementation.
 
-![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/errorarctanuellUe.png)
+![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/errorarctanuellUe.png)
 
 This figure illustrates that the errors in the `arctanuell_ue` function are in the range of \(10^{-10}\%\). This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
