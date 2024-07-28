@@ -22,35 +22,513 @@ To use the `UlianovEllipse` library, first ensure you have `numpy` installed, as
 pip install numpy
 pip install ulianovellipse
 ```
+To see examples of use, go to the [Examples of use](#examples-of-use) section at the end of this document.
 
-## Examples of use
-In directory main\examples some python programs are presented:
-allellipses.py,
-dudaflower.py,
-polianaflower.py,
-rotateellipses.py,
-saleteflower.py,
-testarctannuell.py,
-testarctannuellue.py.
-twoellipses.py.
+# Technical Reference Manual for the ulianovellipse.py Library
 
-These are interesting example programs for using the ulianovellipse library and do the following:
+## Theoretical Basis
 
-1. **allellipses.py**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
+In the standard ellipse model one ellipes  is defined by two parameters, a and b:
 
-2. **dudaflower.py**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
+(x/a)^2 + (y/b)^2 = 1 
 
-3. **polianaflower.py**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
+x = a cos(α) 
 
-4. **rotateellipses.py**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
+y = b sin(α)
+
+
+This defines an ellipse centered at the origin, which intersects the x and y axes at the points: x = a, y = 0; x = 0, y = b; x = -a, y = 0; x = 0, y = -b. This ellipse is straightforward to implement, but in some cases (such as the orbits of planets around the sun), the ellipse must be centered at one of the foci, and the angle is defined differently.
+
+
+In the Ulianov ellipse model the same ellipse is defined using a parameter called the Ulianov Elliptic Parameter Ue:
+
+R_0 = a - sqrt(a^2 - b^2)
+
+Ue = b/(a R_0)
+
+which allows for easily creating an ellipse:
+
+x = R_0 cosuell(α, Ue)
+
+y = R_0 sinuell(α, Ue)
+
+
+This generates an ellipse identical to the one defined using a and b, but shifted to the left along the x-axis, with the center at x = R_0 - a, y = 0. It varies along the x-axis from x = -2a + R_0 to x = R_0 and along the y-axis from y = -b to y = b.
+
+Knowing R_0 and Ue, the standard parameters are calculated by:
+
+a = R_0/2 - Ue
+
+b = R_0/sqrt((2/Ue) - 1)
+
+
+Thus, using a, b or R_0, Ue is equivalent because one system can easily be converted to the other. However, it should be noted that the ellipse drawing will be shifted, and the angle α is defined differently when moving from the standard ellipse model to the Ulianov ellipse.
+
+Observation: The Ulianov ellipse model generates ellipses only for 0 < Ue < 2. Ue = 0 generates a line on the x-axis, Ue = 1 generates a circle, Ue = 2 generates a parabola, and Ue > 2 generates hyperbolas. For ellipses (Ue between 0 and 2), the value of a must be greater than b to generate an ellipse with both foci on the x-axis. If b is greater than a, it results in a negative root in the calculation of R_0. To avoid this, a swap of the x and y axes is defined by swapping a with b. To signal this swap, the value of Ue is multiplied by -1. For example, the ellipse a = 5, b = 3 generates R_0 = 1, Ue = 1.8. In the case of b > a, the ellipse a = 3, b = 5 generates R_0 = 1, Ue = -1.8. In this case, the Ulianov ellipse is shifted downward with the center at x = 0, y = R_0 - b, varying from x = -a to x = a and from y = R_0 - 2b to R_0. Thus, for negative Ue, the ellipse is rotated 90 degrees.
+
+This Ulianov ellipse model has an additional advantage:
+Given a point x, y on the ellipse and the parameter Ue, the value of α and R_0 can be determined:
+
+
+α, R_0 = arctanuell (y, x, Ue)
+
+
+Furthermore, if x, y, R_0 are known, it can be calculated:
+
+α, Ue = arctanuell_ue (y, x, R_0)
+
+
+For the standard ellipse, the angle α can be calculated using a scaling factor:
+
+xi = x/a = cos(α)
+
+yi = y/b = sin(α)
+
+α = arctan2(yi,xi) = arctan2(y/b,x/a)
+
+But in this case, both parameters a, b need to be known, and the angle α is defined concerning the geometric center of the ellipse. In the arctanuell and arctanuell_ue functions, only one parameter (R0 or Ue) needs to be known, and the angle defined is centered at the main focus of the ellipse, which can be advantageous in various applications such as the study of elliptical orbits.
+
+Note that if we were dealing with a circle, it could be defined:
+
+x = R_0 cos (α)
+
+y = R_0 sin (α)
+
+α = arctan2 (y, x)
+
+R_0 = sqrt(x^2 + y^2)
+
+
+Thus, the Ulianov ellipse extends these three basic functions of circles (sine, cosine, and arctangent functions) to ellipses by including the parameter Ue:
+
+x = R_0 cosuell (α, Ue)
+
+y = R_0 sinuell (α, Ue)
+
+α, R_0 = arctanuell (y, x, Ue)
+
+α, Ue = arctanuell_ue(y, x, R_0)
+
+These inverse functions and the conversion of parameters a, b to R_0, Ue make it easy to switch from the standard ellipse model to the Ulianov ellipse model. This allows moving from an angular representation centered on the geometric center of the ellipse (standard ellipse) to the ellipse centered on the focus (Ulianov ellipse) and from known points on the ellipse to obtain angles related to these points. The model also allows dealing with the velocities of bodies in elliptical orbits and associating time values with angle values, which is addressed in the ulianovorbit library (https://github.com/PolicarpoYU/uo).
+
+## Summary of the UlianovEllipse Class
+
+The UlianovEllipse class provides various methods to work with Ulianov ellipses:
+
+### Class Initialization
+- `__init__()`: Initializes the class.
+
+### Internal Use Methods
+- `lim_ue(self, Ue)`: Limits the value of Ue.
+- `arctanuell_1p(self, y, x, Ue)`: Internal method to calculate the arctangent for a given x and y coordinate and Ue.
+- `calcula_angulo_rad(self, Ue, ang)`: Calculates the angle for a given Ue and initial angle in radians.
+
+### Main Methods
+- `cosuell(self, alpha, Ue)`: Calculates the cosine for Ulianov ellipses.
+- `sinuell(self, alpha, Ue)`: Calculates the sine for Ulianov ellipses.
+- `arctanuell(self, y, x, Ue, precision=1E-10)`: Calculates the Ulianov Ellipse arctangent for given x and y coordinates and Ue.
+- `arctanuell_ue(self, y, x, R0)`: Calculates the Ulianov Ellipse arctangent and Ue value from R_0.
+
+### Conversion Methods
+- `calc_ue(self, a, b)`: Calculates R_0 and Ue from the semi-major axis (a) and semi-minor axis (b).
+- `calc_ab(self, R0, Ue)`: Calculates the semi-major axis (a) and semi-minor axis (b) from R_0 and Ue.
+- `calc_R0(self, x, y, ang, Ue)`: Calculates the R_0 parameter for the ellipse based on coordinates and angle.
+
+### Monitoring Method
+- `last_functon_steps(self)`: Returns the number of steps taken by the last function executed.
+
+### Methods to Generate Complete Ellipses
+- `ulianov_ellipse_ue(self, R0, Ue, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang
+
+_ellipse_degrees=0)`: Calculates the coordinates of the Ulianov ellipse using R_0 and Ue.
+- `ulianov_ellipse_ab(self, a, b, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of the Ulianov ellipse using a and b.
+- `ellipse_ab(self, a, b, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of a standard ellipse using a and b.
+- `ellipse_ue(self, R0, Ue, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of a standard ellipse using R_0 and Ue.
+
+### Object for Easy Use of the Methods
+- `eu = UlianovEllipse()`
+
+
+# Detailed Description of ulianovellipse.py Functions
+
+
+## Description of the Four Main Functions:
+
+### Function cosuell 
+
+This function calculates the Ulianov elliptical cosine defined as:
+
+For Ue < 2 (ellipse case):
+
+cosuell(alpha, Ue) = 1 / (2 - Ue) * (cos(alpha) - 1 + 1)
+
+For Ue = 2 (parabola case): 
+
+cosuell(alpha, Ue) = 1 - (sinh(alpha)^2) / 4
+
+For Ue > 2 (hyperbole case):
+
+cosuell(alpha, Ue) = 1 / (2 - Ue) * (cosh(alpha) - 1 + 1)
+
+For Ue < 0 (b > a case, must invert the x and y axes):
+
+cosuell(alpha, Ue) = sinuell(alpha, abs(Ue))
+
+**General description of the cosuell function:**
+
+Calculates the Ulianov Ellipse cosine for a given angle and Ue.
+
+Parameters:
+- `alpha` (float): Angle in radians.
+- `Ue` (float): Ellipse parameter Ue.
+
+Returns:
+- float: Ulianov Ellipse Cosine value for the given angle and Ue.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+alpha = np.pi/2
+Ue = 1.8
+R0 = 1
+ex = R0 * eu.cosuell(alpha, Ue)
+print(f"cosuell: {ex}")
+```   
+
+### Function sinuell
+
+This function calculates the Ulianov Ellipse sine for a given angle and Ue.
+
+For Ue < 2 (ellipse case):
+
+sinuell(alpha, Ue) = 1 / sqrt((2 / Ue) - 1) * sin(alpha)
+
+For Ue = 2 (parabola case): 
+
+sinuell(alpha, Ue) = sinh(alpha)
+
+For Ue > 2 (hyperbole case):
+
+sinuell(alpha, Ue) = 1 / sqrt(1 - (2 / Ue)) * sinh(alpha)
+
+For Ue < 0 (b > a case, must invert the x and y axes):
+
+sinuell(alpha, Ue) = cosuell(alpha, abs(Ue))
+
+**General description of the sinuell function:**
+
+Calculates the Ulianov Ellipse sine for a given angle and Ue.
+
+Parameters:
+- `alpha` (float): Angle in radians.
+- `Ue` (float): Ellipse parameter Ue.
+
+Returns:
+- float: Ulianov Ellipse Sine value for the given angle and Ue.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+alpha = np.pi/2
+Ue = 1.8
+R0 = 1
+ey = R0 * eu.sinuell(alpha, Ue)
+print(f"sinuell: {ey}")
+```
+
+### Function arctanuell
+
+This function calculates the Ulianov Ellipse arctangent for given x and y coordinates and Ue.
+
+**General description of the arctanuell function:**
+
+Calculates the Ulianov Ellipse arctangent for a given x and y coordinate and Ue.
+
+Parameters:
+- `y` (float): Y-coordinate.
+- `x` (float): X-coordinate.
+- `Ue` (float): Ellipse parameter Ue (ranges from -1.99999999999999 to 1.99999999999999).
+- `precision` (float): Desired precision for the calculation.
+- `msg` (int): Verbosity level for debugging messages.
+
+Returns:
+- tuple: (angle, R0)
+  - `angle` (float): Calculated angle in radians.
+  - `R0` (float): Calculated R0 value.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+alpha = np.pi/2
+Ue = 1.8
+R0 = 1
+ex = R0 * eu.cosuell(alpha, Ue)
+ey = R0 * eu.sinuell(alpha, Ue)
+# Testing the function arctanuell with known values of alpha and R0:  
+alpha1, R1 = eu.arctanuell(ey, ex, Ue)
+# Calculate the errors
+error_alpha = (alpha - alpha1) / alpha * 100
+error_R0 = (R0 - R1) / R0 * 100
+print(f"alpha1: {alpha1}, R1: {R1}, error_alpha: {error_alpha}%, error_R0: {error_R0}%")
+```
+
+### Function arctanuell_ue
+
+This function calculates the Ulianov Ellipse arctangent and Ue value from R0.
+
+**General description of the arctanuell_ue function:**
+
+Calculates the Ulianov Ellipse arctangent and Ue value from R0.
+
+Parameters:
+- `y` (float): Y-coordinate.
+- `x` (float): X-coordinate.
+- `R0` (float): Ellipse parameter R0.
+
+Returns:
+- tuple: (angle, Ue)
+  - `angle` (float): Calculated angle in radians.
+  - `Ue` (float): Calculated Ue value (ranges from 1 to 1.99999999999999).
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+y = 3
+x = 4
+R0 = 1
+alpha, Ue = eu.arctanuell_ue(y, x, R0)
+print(f"alpha: {alpha}, Ue: {Ue}")
+```
+
+
+## Description of Conversion Methods from Standard Ellipse to Ulianov Ellipse:
+
+### Function calc_ue
+
+This function calculates R0 and Ue based on the semi-major axis (a) and semi-minor axis (b).
+
+Parameters:
+- `a` (float): Semi-major axis.
+- `b` (float): Semi-minor axis.
+
+Returns:
+- tuple: (R0, Ue)
+  - `R0` (float): Ellipse parameter R0.
+  - `Ue` (float): Ellipse parameter Ue.
+
+**Example of use:**
+
+```python
+from ulianovellipse import eu
+
+a = 5
+b = 3
+R0, Ue = eu.calc_ue(a, b)
+print(f"R0: {R0}, Ue: {Ue}")
+```
+
+### Function calc_ab
+
+This function calculates the semi-major axis (a) and semi-minor axis (b) from R0 and Ue.
+
+Parameters:
+- `R0` (float): Ellipse parameter R0.
+- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+
+Returns:
+- tuple: (a, b)
+  - `a` (float): Semi-major axis.
+  - `b` (float): Semi-minor axis.
+
+**Example of use:**
+
+```python
+from ulianovellipse import eu
+
+R0 = 1
+Ue = 1.8
+a, b = eu.calc_ab(R0, Ue)
+print(f"a: {a}, b: {b}")
+```
+
+## Description of Four Methods to Generate Complete Ellipses:
+
+### Function ulianov_ellipse_ue
+
+This function calculates the coordinates of the Ulianov ellipse using R0 and Ue.
+
+Parameters:
+- `R0` (float): Ellipse parameter R0.
+- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+- `delta_ang` (float): Angular step size in degrees (default is 0.1).
+- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
+- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
+- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
+- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
+
+Returns:
+- tuple: (UE_x, UE_y)
+  - `UE_x` (ndarray): X-coordinates of the ellipse.
+  - `UE_y` (ndarray): Y-coordinates of the ellipse.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+R0 = 1
+Ue = 1.8
+UE_x, UE_y = eu.ulianov_ellipse_ue(R0, Ue)
+plt.plot(UE_x, UE_y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Ulianov Ellipse')
+plt.grid()
+plt.show()
+```
+
+### Function ulianov_ellipse_ab
+
+This function calculates the coordinates of the Ulianov ellipse using a and b.
+
+Parameters:
+- `a` (float): Semi-major axis.
+- `b` (float): Semi-minor axis.
+- `delta_ang` (float): Angular step size in degrees (default is 0.1).
+- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
+- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
+- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
+- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
+
+Returns:
+- tuple: (UE_x, UE_y)
+  - `UE_x` (ndarray): X-coordinates of the ellipse.
+  - `UE_y` (ndarray): Y-coordinates of the ellipse.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+a = 5
+b = 3
+UE_x, UE_y = eu.ulianov_ellipse_ab(a, b)
+plt.plot(UE_x, UE_y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Ulianov Ellipse with a and b')
+plt.grid()
+plt.show()
+```
+
+### Function ellipse_ab
+
+This function calculates the coordinates of a standard ellipse using a and b.
+
+Parameters:
+- `a` (float): Semi-major axis.
+- `b` (float): Semi-minor axis.
+- `delta_ang` (float): Angular step size in degrees (default is 0.1).
+- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
+- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
+- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
+- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
+
+Returns:
+- tuple: (SE_x, SE_y)
+  - `SE_x` (ndarray): X-coordinates of the ellipse.
+  - `SE_y` (ndarray): Y-coordinates of the ellipse.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+a = 5
+b = 3
+SE_x, SE_y = eu.ellipse_ab(a, b)
+plt.plot(SE_x, SE_y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Standard Ellipse with a and b')
+plt.grid()
+plt.show()
+```
+
+### Function ellipse_ue
+
+This function calculates the coordinates of a standard ellipse using R0 and Ue.
+
+Parameters:
+- `R0` (float): Ellipse parameter R0.
+- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+- `delta_ang` (float): Angular step size in degrees (default is 0.1).
+- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
+- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
+- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
+- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
+
+Returns:
+- tuple: (SE_x, SE_y)
+  - `SE_x` (ndarray): X-coordinates of the ellipse.
+  - `SE_y` (ndarray): Y-coordinates of the ellipse.
+
+**Example of use:**
+
+```python
+import numpy as np
+from ulianovellipse import eu
+
+R0 = 1
+Ue = 1.8
+SE_x, SE_y = eu.ellipse_ue(R0, Ue)
+plt.plot(SE_x, SE_y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Standard Ellipse with R0 and Ue')
+plt.grid()
+plt.show()
+```
+
+For detailed information and theoretical background on the Ulianov Ullipse Model and Ulianov Orbital Model, refer to the paper:
+
+Ulianov, P. Y., "Ulianov Orbital Model. Describing Kepler Orbits Using Only Five Parameters and Using Ulianov Elliptical Trigonometric Function: Elliptical Cosine and Elliptical Sine," June 2024. Available at: [Academia](https://www.academia.edu/122397626)
+
+
+# Examples of use
+
+In directory main\examples are interesting example programs for using the ulianovellipse library and do the following:
+
+1. **[allellipses.py](#example-of-use-03-allellipsespy)**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
+
+2. **[dudaflower.py](#example-of-use-02-polianaflowerpy)**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
+
+3. **[polianaflower.py](#example-of-use-02-polianaflowerpy)**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
+
+4. **[rotateellipses.py](#example-of-use-04-rotateellipsespy)**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
 
 5. **saleteflower.py**: Similar to dudaflower.py, but using different parameters to create a flower pattern with Ulianov ellipses and a distinct color palette.
 
-6. **testarctannuell.py**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
+6. **[testarctannuell.py](#example-of-use-05-testarctannuellpy)**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
 
-7. **testarctannuellue.py**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
+7. **[testarctannuellue.py](#example-of-use-06-testarctannuelluepy)**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
 
-8. **twoellipses.py**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
+8. **[twoellipses.py](#example-of-use-01-twoellipsespy)**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
 
 ## Example of use 01: twoellipses.py
 ### Drawing a standard ellipse using the sin(alpha) and cos(aplha) functions and the Ulianov ellipse using the sinuell(alpha,Ue) and cosell(alpha,Ue) functions
@@ -701,486 +1179,3 @@ The graph produced shows the errors in both alpha and  Ue  across different test
 This figure illustrates that the errors in the `arctanuell_ue` function are in the range of 10^{-9}%. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
 
-
-# Technical Reference Manual for the ulianovellipse.py Library
-
-## Theoretical Basis
-
-In the standard ellipse model one ellipes  is defined by two parameters, a and b:
-
-(x/a)^2 + (y/b)^2 = 1 
-
-x = a cos(α) 
-
-y = b sin(α)
-
-
-This defines an ellipse centered at the origin, which intersects the x and y axes at the points: x = a, y = 0; x = 0, y = b; x = -a, y = 0; x = 0, y = -b. This ellipse is straightforward to implement, but in some cases (such as the orbits of planets around the sun), the ellipse must be centered at one of the foci, and the angle is defined differently.
-
-
-In the Ulianov ellipse model the same ellipse is defined using a parameter called the Ulianov Elliptic Parameter Ue:
-
-R_0 = a - sqrt(a^2 - b^2)
-
-Ue = b/(a R_0)
-
-which allows for easily creating an ellipse:
-
-x = R_0 cosuell(α, Ue)
-
-y = R_0 sinuell(α, Ue)
-
-
-This generates an ellipse identical to the one defined using a and b, but shifted to the left along the x-axis, with the center at x = R_0 - a, y = 0. It varies along the x-axis from x = -2a + R_0 to x = R_0 and along the y-axis from y = -b to y = b.
-
-Knowing R_0 and Ue, the standard parameters are calculated by:
-
-a = R_0/2 - Ue
-
-b = R_0/sqrt((2/Ue) - 1)
-
-
-Thus, using a, b or R_0, Ue is equivalent because one system can easily be converted to the other. However, it should be noted that the ellipse drawing will be shifted, and the angle α is defined differently when moving from the standard ellipse model to the Ulianov ellipse.
-
-Observation: The Ulianov ellipse model generates ellipses only for 0 < Ue < 2. Ue = 0 generates a line on the x-axis, Ue = 1 generates a circle, Ue = 2 generates a parabola, and Ue > 2 generates hyperbolas. For ellipses (Ue between 0 and 2), the value of a must be greater than b to generate an ellipse with both foci on the x-axis. If b is greater than a, it results in a negative root in the calculation of R_0. To avoid this, a swap of the x and y axes is defined by swapping a with b. To signal this swap, the value of Ue is multiplied by -1. For example, the ellipse a = 5, b = 3 generates R_0 = 1, Ue = 1.8. In the case of b > a, the ellipse a = 3, b = 5 generates R_0 = 1, Ue = -1.8. In this case, the Ulianov ellipse is shifted downward with the center at x = 0, y = R_0 - b, varying from x = -a to x = a and from y = R_0 - 2b to R_0. Thus, for negative Ue, the ellipse is rotated 90 degrees.
-
-This Ulianov ellipse model has an additional advantage:
-Given a point x, y on the ellipse and the parameter Ue, the value of α and R_0 can be determined:
-
-
-α, R_0 = arctanuell (y, x, Ue)
-
-
-Furthermore, if x, y, R_0 are known, it can be calculated:
-
-α, Ue = arctanuell_ue (y, x, R_0)
-
-
-For the standard ellipse, the angle α can be calculated using a scaling factor:
-
-xi = x/a = cos(α)
-
-yi = y/b = sin(α)
-
-α = arctan2(yi,xi) = arctan2(y/b,x/a)
-
-But in this case, both parameters a, b need to be known, and the angle α is defined concerning the geometric center of the ellipse. In the arctanuell and arctanuell_ue functions, only one parameter (R0 or Ue) needs to be known, and the angle defined is centered at the main focus of the ellipse, which can be advantageous in various applications such as the study of elliptical orbits.
-
-Note that if we were dealing with a circle, it could be defined:
-
-x = R_0 cos (α)
-
-y = R_0 sin (α)
-
-α = arctan2 (y, x)
-
-R_0 = sqrt(x^2 + y^2)
-
-
-Thus, the Ulianov ellipse extends these three basic functions of circles (sine, cosine, and arctangent functions) to ellipses by including the parameter Ue:
-
-x = R_0 cosuell (α, Ue)
-
-y = R_0 sinuell (α, Ue)
-
-α, R_0 = arctanuell (y, x, Ue)
-
-α, Ue = arctanuell_ue(y, x, R_0)
-
-These inverse functions and the conversion of parameters a, b to R_0, Ue make it easy to switch from the standard ellipse model to the Ulianov ellipse model. This allows moving from an angular representation centered on the geometric center of the ellipse (standard ellipse) to the ellipse centered on the focus (Ulianov ellipse) and from known points on the ellipse to obtain angles related to these points. The model also allows dealing with the velocities of bodies in elliptical orbits and associating time values with angle values, which is addressed in the ulianovorbit library (https://github.com/PolicarpoYU/uo).
-
-## Summary of the UlianovEllipse Class
-
-The UlianovEllipse class provides various methods to work with Ulianov ellipses:
-
-### Class Initialization
-- `__init__()`: Initializes the class.
-
-### Internal Use Methods
-- `lim_ue(self, Ue)`: Limits the value of Ue.
-- `arctanuell_1p(self, y, x, Ue)`: Internal method to calculate the arctangent for a given x and y coordinate and Ue.
-- `calcula_angulo_rad(self, Ue, ang)`: Calculates the angle for a given Ue and initial angle in radians.
-
-### Main Methods
-- `cosuell(self, alpha, Ue)`: Calculates the cosine for Ulianov ellipses.
-- `sinuell(self, alpha, Ue)`: Calculates the sine for Ulianov ellipses.
-- `arctanuell(self, y, x, Ue, precision=1E-10)`: Calculates the Ulianov Ellipse arctangent for given x and y coordinates and Ue.
-- `arctanuell_ue(self, y, x, R0)`: Calculates the Ulianov Ellipse arctangent and Ue value from R_0.
-
-### Conversion Methods
-- `calc_ue(self, a, b)`: Calculates R_0 and Ue from the semi-major axis (a) and semi-minor axis (b).
-- `calc_ab(self, R0, Ue)`: Calculates the semi-major axis (a) and semi-minor axis (b) from R_0 and Ue.
-- `calc_R0(self, x, y, ang, Ue)`: Calculates the R_0 parameter for the ellipse based on coordinates and angle.
-
-### Monitoring Method
-- `last_functon_steps(self)`: Returns the number of steps taken by the last function executed.
-
-### Methods to Generate Complete Ellipses
-- `ulianov_ellipse_ue(self, R0, Ue, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang
-
-_ellipse_degrees=0)`: Calculates the coordinates of the Ulianov ellipse using R_0 and Ue.
-- `ulianov_ellipse_ab(self, a, b, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of the Ulianov ellipse using a and b.
-- `ellipse_ab(self, a, b, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of a standard ellipse using a and b.
-- `ellipse_ue(self, R0, Ue, delta_ang=0.1, ang_ini_degrees=0, ang_fim_degrees=360, ang_ellipse_rad=0, ang_ellipse_degrees=0)`: Calculates the coordinates of a standard ellipse using R_0 and Ue.
-
-### Object for Easy Use of the Methods
-- `eu = UlianovEllipse()`
-
-# Detailed Description of ulianovellipse.py Functions
-
-## Description of the Four Main Functions:
-
-### Function cosuell 
-
-This function calculates the Ulianov elliptical cosine defined as:
-
-For Ue < 2 (ellipse case):
-
-cosuell(alpha, Ue) = 1 / (2 - Ue) * (cos(alpha) - 1 + 1)
-
-For Ue = 2 (parabola case): 
-
-cosuell(alpha, Ue) = 1 - (sinh(alpha)^2) / 4
-
-For Ue > 2 (hyperbole case):
-
-cosuell(alpha, Ue) = 1 / (2 - Ue) * (cosh(alpha) - 1 + 1)
-
-For Ue < 0 (b > a case, must invert the x and y axes):
-
-cosuell(alpha, Ue) = sinuell(alpha, abs(Ue))
-
-**General description of the cosuell function:**
-
-Calculates the Ulianov Ellipse cosine for a given angle and Ue.
-
-Parameters:
-- `alpha` (float): Angle in radians.
-- `Ue` (float): Ellipse parameter Ue.
-
-Returns:
-- float: Ulianov Ellipse Cosine value for the given angle and Ue.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-alpha = np.pi/2
-Ue = 1.8
-R0 = 1
-ex = R0 * eu.cosuell(alpha, Ue)
-print(f"cosuell: {ex}")
-```   
-
-### Function sinuell
-
-This function calculates the Ulianov Ellipse sine for a given angle and Ue.
-
-For Ue < 2 (ellipse case):
-
-sinuell(alpha, Ue) = 1 / sqrt((2 / Ue) - 1) * sin(alpha)
-
-For Ue = 2 (parabola case): 
-
-sinuell(alpha, Ue) = sinh(alpha)
-
-For Ue > 2 (hyperbole case):
-
-sinuell(alpha, Ue) = 1 / sqrt(1 - (2 / Ue)) * sinh(alpha)
-
-For Ue < 0 (b > a case, must invert the x and y axes):
-
-sinuell(alpha, Ue) = cosuell(alpha, abs(Ue))
-
-**General description of the sinuell function:**
-
-Calculates the Ulianov Ellipse sine for a given angle and Ue.
-
-Parameters:
-- `alpha` (float): Angle in radians.
-- `Ue` (float): Ellipse parameter Ue.
-
-Returns:
-- float: Ulianov Ellipse Sine value for the given angle and Ue.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-alpha = np.pi/2
-Ue = 1.8
-R0 = 1
-ey = R0 * eu.sinuell(alpha, Ue)
-print(f"sinuell: {ey}")
-```
-
-### Function arctanuell
-
-This function calculates the Ulianov Ellipse arctangent for given x and y coordinates and Ue.
-
-**General description of the arctanuell function:**
-
-Calculates the Ulianov Ellipse arctangent for a given x and y coordinate and Ue.
-
-Parameters:
-- `y` (float): Y-coordinate.
-- `x` (float): X-coordinate.
-- `Ue` (float): Ellipse parameter Ue (ranges from -1.99999999999999 to 1.99999999999999).
-- `precision` (float): Desired precision for the calculation.
-- `msg` (int): Verbosity level for debugging messages.
-
-Returns:
-- tuple: (angle, R0)
-  - `angle` (float): Calculated angle in radians.
-  - `R0` (float): Calculated R0 value.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-alpha = np.pi/2
-Ue = 1.8
-R0 = 1
-ex = R0 * eu.cosuell(alpha, Ue)
-ey = R0 * eu.sinuell(alpha, Ue)
-# Testing the function arctanuell with known values of alpha and R0:  
-alpha1, R1 = eu.arctanuell(ey, ex, Ue)
-# Calculate the errors
-error_alpha = (alpha - alpha1) / alpha * 100
-error_R0 = (R0 - R1) / R0 * 100
-print(f"alpha1: {alpha1}, R1: {R1}, error_alpha: {error_alpha}%, error_R0: {error_R0}%")
-```
-
-### Function arctanuell_ue
-
-This function calculates the Ulianov Ellipse arctangent and Ue value from R0.
-
-**General description of the arctanuell_ue function:**
-
-Calculates the Ulianov Ellipse arctangent and Ue value from R0.
-
-Parameters:
-- `y` (float): Y-coordinate.
-- `x` (float): X-coordinate.
-- `R0` (float): Ellipse parameter R0.
-
-Returns:
-- tuple: (angle, Ue)
-  - `angle` (float): Calculated angle in radians.
-  - `Ue` (float): Calculated Ue value (ranges from 1 to 1.99999999999999).
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-y = 3
-x = 4
-R0 = 1
-alpha, Ue = eu.arctanuell_ue(y, x, R0)
-print(f"alpha: {alpha}, Ue: {Ue}")
-```
-
-
-## Description of Conversion Methods from Standard Ellipse to Ulianov Ellipse:
-
-### Function calc_ue
-
-This function calculates R0 and Ue based on the semi-major axis (a) and semi-minor axis (b).
-
-Parameters:
-- `a` (float): Semi-major axis.
-- `b` (float): Semi-minor axis.
-
-Returns:
-- tuple: (R0, Ue)
-  - `R0` (float): Ellipse parameter R0.
-  - `Ue` (float): Ellipse parameter Ue.
-
-**Example of use:**
-
-```python
-from ulianovellipse import eu
-
-a = 5
-b = 3
-R0, Ue = eu.calc_ue(a, b)
-print(f"R0: {R0}, Ue: {Ue}")
-```
-
-### Function calc_ab
-
-This function calculates the semi-major axis (a) and semi-minor axis (b) from R0 and Ue.
-
-Parameters:
-- `R0` (float): Ellipse parameter R0.
-- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
-
-Returns:
-- tuple: (a, b)
-  - `a` (float): Semi-major axis.
-  - `b` (float): Semi-minor axis.
-
-**Example of use:**
-
-```python
-from ulianovellipse import eu
-
-R0 = 1
-Ue = 1.8
-a, b = eu.calc_ab(R0, Ue)
-print(f"a: {a}, b: {b}")
-```
-
-## Description of Four Methods to Generate Complete Ellipses:
-
-### Function ulianov_ellipse_ue
-
-This function calculates the coordinates of the Ulianov ellipse using R0 and Ue.
-
-Parameters:
-- `R0` (float): Ellipse parameter R0.
-- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
-- `delta_ang` (float): Angular step size in degrees (default is 0.1).
-- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
-- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
-- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
-- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
-
-Returns:
-- tuple: (UE_x, UE_y)
-  - `UE_x` (ndarray): X-coordinates of the ellipse.
-  - `UE_y` (ndarray): Y-coordinates of the ellipse.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-R0 = 1
-Ue = 1.8
-UE_x, UE_y = eu.ulianov_ellipse_ue(R0, Ue)
-plt.plot(UE_x, UE_y)
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Ulianov Ellipse')
-plt.grid()
-plt.show()
-```
-
-### Function ulianov_ellipse_ab
-
-This function calculates the coordinates of the Ulianov ellipse using a and b.
-
-Parameters:
-- `a` (float): Semi-major axis.
-- `b` (float): Semi-minor axis.
-- `delta_ang` (float): Angular step size in degrees (default is 0.1).
-- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
-- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
-- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
-- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
-
-Returns:
-- tuple: (UE_x, UE_y)
-  - `UE_x` (ndarray): X-coordinates of the ellipse.
-  - `UE_y` (ndarray): Y-coordinates of the ellipse.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-a = 5
-b = 3
-UE_x, UE_y = eu.ulianov_ellipse_ab(a, b)
-plt.plot(UE_x, UE_y)
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Ulianov Ellipse with a and b')
-plt.grid()
-plt.show()
-```
-
-### Function ellipse_ab
-
-This function calculates the coordinates of a standard ellipse using a and b.
-
-Parameters:
-- `a` (float): Semi-major axis.
-- `b` (float): Semi-minor axis.
-- `delta_ang` (float): Angular step size in degrees (default is 0.1).
-- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
-- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
-- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
-- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
-
-Returns:
-- tuple: (SE_x, SE_y)
-  - `SE_x` (ndarray): X-coordinates of the ellipse.
-  - `SE_y` (ndarray): Y-coordinates of the ellipse.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-a = 5
-b = 3
-SE_x, SE_y = eu.ellipse_ab(a, b)
-plt.plot(SE_x, SE_y)
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Standard Ellipse with a and b')
-plt.grid()
-plt.show()
-```
-
-### Function ellipse_ue
-
-This function calculates the coordinates of a standard ellipse using R0 and Ue.
-
-Parameters:
-- `R0` (float): Ellipse parameter R0.
-- `Ue` (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
-- `delta_ang` (float): Angular step size in degrees (default is 0.1).
-- `ang_ini_degrees` (float): Initial angle in degrees (default is 0).
-- `ang_fim_degrees` (float): Final angle in degrees (default is 360).
-- `ang_ellipse_rad` (float): Ellipse rotation angle in radians (default is 0).
-- `ang_ellipse_degrees` (float): Ellipse rotation angle in degrees (default is 0).
-
-Returns:
-- tuple: (SE_x, SE_y)
-  - `SE_x` (ndarray): X-coordinates of the ellipse.
-  - `SE_y` (ndarray): Y-coordinates of the ellipse.
-
-**Example of use:**
-
-```python
-import numpy as np
-from ulianovellipse import eu
-
-R0 = 1
-Ue = 1.8
-SE_x, SE_y = eu.ellipse_ue(R0, Ue)
-plt.plot(SE_x, SE_y)
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Standard Ellipse with R0 and Ue')
-plt.grid()
-plt.show()
-```
-
-For detailed information and theoretical background on the Ulianov Ullipse Model and Ulianov Orbital Model, refer to the paper:
-
-Ulianov, P. Y., "Ulianov Orbital Model. Describing Kepler Orbits Using Only Five Parameters and Using Ulianov Elliptical Trigonometric Function: Elliptical Cosine and Elliptical Sine," June 2024. Available at: [Academia](https://www.academia.edu/122397626)
