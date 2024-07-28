@@ -1,4 +1,9 @@
 # UlianovEllipse
+Example of Polina Elliptical Flowers, Duda Elliptical Flowers and Salate Elliptical Flowers drawing usin the ulianovellipse library:
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="500"/>
+</p>
 
 ## Overview
 
