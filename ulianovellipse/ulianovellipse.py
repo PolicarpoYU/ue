@@ -27,6 +27,10 @@ Available functions and methods:
 - ulianov_ellipse_ab
 - ellipse_ab
 - ellipse_ue
+
+See examples of use in: 
+https://github.com/PolicarpoYU/ue  
+directory:examples
 """
 
 
