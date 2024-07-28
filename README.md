@@ -1,5 +1,5 @@
 # UlianovEllipse
-Example of [Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy), Duda Elliptical Flowers and Salate Elliptical Flowers drawing usin the ulianovellipse library:
+Example of [Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy), Duda Elliptical Flowers and Salate Elliptical Flowers drawing usin functions [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ellipse_ab] available in the ulianovellipse library:
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
