@@ -523,17 +523,17 @@ Ulianov, P. Y., "Ulianov Orbital Model. Describing Kepler Orbits Using Only Five
 
 In directory main\examples are interesting example programs for using the ulianovellipse library and do the following:
 
-1. **[polianaflower.py](#example-of-use-02-polianaflowerpy)**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
+1. **[twoellipses.py](#example-of-use-01-twoellipsespy)**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
 
-2. **[allellipses.py](#example-of-use-03-allellipsespy)**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
+2. **[rotateellipses.py](#example-of-use-04-rotateellipsespy)**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
 
-3. **[rotateellipses.py](#example-of-use-04-rotateellipsespy)**: Plots standard and Ulianov ellipses rotated by a specified angle, allowing visualization of the effect of rotation on the ellipses.
+3. **[allellipses.py](#example-of-use-03-allellipsespy)**: Generates multiple Ulianov ellipses over a range of Ue values, demonstrating how these values affect the shapes of the ellipses.
 
-4. **[testarctannuell.py](#example-of-use-05-testarctannuellpy)**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
+4. **[polianaflower.py](#example-of-use-02-polianaflowerpy)**: Creates a more complex flower pattern using two layers of ellipses (standard and Ulianov) with different size and color parameters.
 
-5. **[testarctannuellue.py](#example-of-use-06-testarctannuelluepy)**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
+5. **[testarctannuell.py](#example-of-use-05-testarctannuellpy)**: Tests the `arctanuell` function for various Ue values, assessing the accuracy in retrieving angles and distances in elliptical coordinates.
 
-6. **[twoellipses.py](#example-of-use-01-twoellipsespy)**: Draws two ellipses, one standard and one Ulianov, allowing a direct comparison between the two shapes based on semi-axis parameters.
+6. **[testarctannuellue.py](#example-of-use-06-testarctannuelluepy)**: Tests the `arctanuell_ue` function, checking the precision in converting coordinates to angle and Ue in Ulianov ellipses.
 
 7. **dudaflower.py**: Draws a flower pattern using standard and Ulianov ellipses, varying parameters such as size and rotation to create an interesting visual effect.
 
