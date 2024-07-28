@@ -1,5 +1,6 @@
 # UlianovEllipse
-Example of [Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy), Duda Elliptical Flowers and Salate Elliptical Flowers drawing usin functions [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ellipse_ab](#function-ellipse_ab) available in the ulianovellipse library:
+
+Example of [Poliana Elliptical Flower](#example-of-use-02-polianaflowerpy), [Duda Elliptical Flowers](#example-of-use-07-dudaflowerpy), and [Salete Elliptical Flowers](#example-of-use-08-saleteflowerpy) drawing using functions [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ellipse_ab](#function-ellipse_ab) available in the UlianovEllipse library:
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
@@ -1189,7 +1190,7 @@ The graph produced shows the errors in both alpha and  Ue  across different test
 This figure illustrates that the errors in the `arctanuell_ue` function are in the range of 10^{-9}%. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
 
-## Example of Use 07: Duda Flower
+## Example of Use 07: dudaflower.py
 
 The `Duda_Flower` function creates a flower-like pattern using a combination of standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
 
@@ -1282,7 +1283,7 @@ This example demonstrates how to create a complex, visually appealing pattern us
 
 ---
 
-## Example of Use 08: Salete Flower
+## Example of Use 08: saleteflower.py
 
 The `Salete_Flower` function creates a flower-like pattern using standard and Ulianov ellipses. The function accepts various parameters to customize the size, number of petals, colors, and rotation of the flower.
 
