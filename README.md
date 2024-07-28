@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **UlianovEllipse** library provides a comprehensive set of functions and classes for working with Ulianov elliptical functions. These functions are utilized in the Ulianov Orbital Model (UOM) to analyze and model elliptical orbits. The library also includes general utilities for handling and transforming elliptical shapes in various applications. 
+The **UlianovEllipse** library provides a comprehensive set of functions and classes for working with Ulianov elliptical functions. These functions are utilized in the Ulianov Orbital Model (UOM) to analyze and model elliptical orbits. The library also includes general utilities for handling and transforming elliptical shapes in various applications. \(1^2\)
 
 <!-- Este é um comentário que não aparecerá na renderização. -->
 
@@ -196,7 +196,7 @@ This example demonstrates how to create a complex, visually appealing pattern us
 ## Example of Use 03:
 ### Drawing Ellipses, Parabolas, and Hyperboles
 
-This example demonstrates how to use the `ulianovellipse` library to plot a series of Ulianov ellipses, along with parabolic and hyperbolic paths, by varying the Ulianov Ellipse Parameter ($ U_e $).
+This example demonstrates how to use the `ulianovellipse` library to plot a series of Ulianov ellipses, along with parabolic and hyperbolic paths, by varying the Ulianov Ellipse Parameter (\( U_e \)).
 
 ```python
 import numpy as np
@@ -266,25 +266,25 @@ all_ellipses()
 
 - **Parameters:**
   - `Ue_min`, `Ue_max`: Define the range of Ulianov Ellipse Parameter values to plot.
-  - `passo`: Step size for the increment of $ U_e $ values.
+  - `passo`: Step size for the increment of \( U_e \) values.
   - `esc`: Scale factor to adjust the plot limits.
   - `R0`: Fixed parameter representing the minimum orbital distance for all ellipses.
 
 - **Calculations:**
-  - `Ue_values`: Array of $ U_e $ values ranging from `Ue_min` to `Ue_max` with step size `passo`.
-  - For each $ U_e $ value, the function calculates the coordinates of the Ulianov ellipse using `ulianov_ellipse_ue`.
+  - `Ue_values`: Array of \( U_e \) values ranging from `Ue_min` to `Ue_max` with step size `passo`.
+  - For each \( U_e \) value, the function calculates the coordinates of the Ulianov ellipse using `ulianov_ellipse_ue`.
 
 - **Plotting:**
   - The ellipses are plotted with different colors:
-    - Green for $ U_e < 1 $
-    - Blue for $ 1 < U_e < 2 $
-    - Black for $ U_e > 2 $
-    - Red highlights are added for specific $ U_e $ values, such as 1 and 2.
+    - Green for \( U_e < 1 \)
+    - Blue for \( 1 < U_e < 2 \)
+    - Black for \( U_e > 2 \)
+    - Red highlights are added for specific \( U_e \) values, such as 1 and 2.
   - The plot includes labels for the axes, a title, and a grid for better visualization.
 
 **Visual Example:**
 
-The plot shows various conic sections (ellipses, parabolas, hyperbolas) depending on the value of $ U_e $. These curves are essential in orbital mechanics and physics, representing different types of orbital paths.
+The plot shows various conic sections (ellipses, parabolas, hyperbolas) depending on the value of \( U_e \). These curves are essential in orbital mechanics and physics, representing different types of orbital paths.
 
 ![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/allellipses.png)
 
@@ -331,7 +331,7 @@ def Plot_Two_Ellipses_rotate_rad_ue(R0, Ue, ang_ellipse=0):
 
 **Function `Plot_Two_Ellipses_rotate_degrees_ab`:**
 
-- **Description:** Plots two ellipses (standard and Ulianov) with given semi-major axis $ a $ and semi-minor axis $ b $, rotated by a specified angle in degrees. The ellipses are plotted in different colors to facilitate comparison.
+- **Description:** Plots two ellipses (standard and Ulianov) with given semi-major axis \( a \) and semi-minor axis \( b \), rotated by a specified angle in degrees. The ellipses are plotted in different colors to facilitate comparison.
 - **Parameters:**
   - `a`: Length of the semi-major axis.
   - `b`: Length of the semi-minor axis.
@@ -339,7 +339,7 @@ def Plot_Two_Ellipses_rotate_rad_ue(R0, Ue, ang_ellipse=0):
 
 **Function `Plot_Two_Ellipses_rotate_rad_ue`:**
 
-- **Description:** Plots two ellipses (standard and Ulianov) using the parameters $ R_0 $ and $ U_e $, rotated by a specified angle in radians. This function is useful for visualizing ellipses with different Ulianov parameters.
+- **Description:** Plots two ellipses (standard and Ulianov) using the parameters \( R_0 \) and \( U_e \), rotated by a specified angle in radians. This function is useful for visualizing ellipses with different Ulianov parameters.
 - **Parameters:**
   - `R0`: Minimum orbital distance for the Ulianov ellipse.
   - `Ue`: Ulianov Ellipse Parameter.
@@ -347,7 +347,7 @@ def Plot_Two_Ellipses_rotate_rad_ue(R0, Ue, ang_ellipse=0):
 
 **Function `Plot_Two_Ellipses_incomplete`:**
 
-- **Description:** Plots incomplete segments of two ellipses (standard and Ulianov) with semi-major axis $ a $ and semi-minor axis $ b $, rotated by a specified angle in degrees. The segments are drawn in different colors, highlighting various parts of the ellipses.
+- **Description:** Plots incomplete segments of two ellipses (standard and Ulianov) with semi-major axis \( a \) and semi-minor axis \( b \), rotated by a specified angle in degrees. The segments are drawn in different colors, highlighting various parts of the ellipses.
 - **Parameters:**
   - `a`: Length of the semi-major axis.
   - `b`: Length of the semi-minor axis.
@@ -365,7 +365,7 @@ This figure illustrates various elliptical shapes and transformations, showcasin
 ## Example of Use 05:
 ### Testing Resolution Errors in the Function `arctanuell`
 
-The `arctanuell` function is a key component of the **UlianovEllipse** library, used to calculate the angle and distance for a given set of coordinates and Ulianov Ellipse parameter $ U_e $. This function is particularly useful in applications where precise calculations of elliptical parameters are required.
+The `arctanuell` function is a key component of the **UlianovEllipse** library, used to calculate the angle and distance for a given set of coordinates and Ulianov Ellipse parameter \( U_e \). This function is particularly useful in applications where precise calculations of elliptical parameters are required.
 
 ### Function Definition:
 ```python
@@ -388,10 +388,10 @@ def arctanuell(self, y, x, Ue, precision=1E-10):
     return ang_final, R0n
 ```
 
-This function iteratively finds the angle and distance using the $ x $ and $ y $ coordinates and the Ulianov Ellipse parameter $ U_e $. Due to the iterative nature of the function, there is a rounding error of the order of $ 10^{-12} \% $. The accuracy and reliability of the `arctanuell` function can be tested using a specialized testing routine, as shown below:
+This function iteratively finds the angle and distance using the \( x \) and \( y \) coordinates and the Ulianov Ellipse parameter \( U_e \). Due to the iterative nature of the function, there is a rounding error of the order of \( 10^{-12} \% \). The accuracy and reliability of the `arctanuell` function can be tested using a specialized testing routine, as shown below:
 
 ### Testing Routine:
-The `test_arctanuell` function assesses the accuracy of the `arctanuell` function by comparing the calculated and original angles and distances for various $ U_e $ values.
+The `test_arctanuell` function assesses the accuracy of the `arctanuell` function by comparing the calculated and original angles and distances for various \( U_e \) values.
 
 ```python
 import numpy as np
@@ -480,29 +480,29 @@ test_arctanuell(4)
 
 ### Explanation of the Code
 
-The function `test_arctanuell` is designed to evaluate the accuracy of the `arctanuell` function from the `ulianovellipse` library. This function calculates the inverse of the elliptical functions (`cosuell` and `sinuell`) for given $ x $ and $ y $ coordinates, returning the angle ($ \alpha $) and distance ($ R_0 $).
+The function `test_arctanuell` is designed to evaluate the accuracy of the `arctanuell` function from the `ulianovellipse` library. This function calculates the inverse of the elliptical functions (`cosuell` and `sinuell`) for given \( x \) and \( y \) coordinates, returning the angle (\( \alpha \)) and distance (\( R_0 \)).
 
 **Parameters:**
-- `lim`: Limits the number of different $ U_e $ values to be tested. If not specified, all values in the `Ue_values` list are used.
+- `lim`: Limits the number of different \( U_e \) values to be tested. If not specified, all values in the `Ue_values` list are used.
 
 **Core Testing Process:**
-1. **Setting up `Ue` values:** The function defines a range of $ U_e $ values, including values approaching the limiting value `eu.Lim_Ue`.
-2. **Generating Test Data:** For each $ U_e $ value, the function generates several points on the ellipse:
+1. **Setting up `Ue` values:** The function defines a range of \( U_e \) values, including values approaching the limiting value `eu.Lim_Ue`.
+2. **Generating Test Data:** For each \( U_e \) value, the function generates several points on the ellipse:
    - `ex` and `ey` coordinates are calculated using the `cosuell` and `sinuell` functions for angles from 0 to 360 degrees.
-   - These coordinates are then passed to the `arctanuell` function, which calculates the corresponding angle ($ \alpha $) and distance ($ R_0 $).
+   - These coordinates are then passed to the `arctanuell` function, which calculates the corresponding angle (\( \alpha \)) and distance (\( R_0 \)).
 3. **Calculating Errors:** The differences between the original and calculated angles (`errogr`) and the original and calculated distances (`errorR0`) are computed.
-4. **Tracking Maximum Errors:** The maximum errors for angle and distance, along with the corresponding angles, are recorded for each $ U_e $.
+4. **Tracking Maximum Errors:** The maximum errors for angle and distance, along with the corresponding angles, are recorded for each \( U_e \).
 
 **Visualization:**
 The function generates two plots:
-1. **Error in Alpha:** Plots the error in the angle calculation ($ \alpha $) against the original angle for different $ U_e $ values.
-2. **Error in $ R_0 $:** Plots the percentage error in the calculated distance $ R_0 $ against the original angle for different $ U_e $ values.
+1. **Error in Alpha:** Plots the error in the angle calculation (\( \alpha \)) against the original angle for different \( U_e \) values.
+2. **Error in \( R_0 \):** Plots the percentage error in the calculated distance \( R_0 \) against the original angle for different \( U_e \) values.
 
-These plots help visualize the accuracy and stability of the `arctanuell` function across a range of $ U_e $ values.
+These plots help visualize the accuracy and stability of the `arctanuell` function across a range of \( U_e \) values.
 
 ### Heart of the Test
 
-The central part of the test involves generating multiple positions (`ex`, `ey`) for a wide range of angles (0 to 360 degrees) and several $ U_e $ values:
+The central part of the test involves generating multiple positions (`ex`, `ey`) for a wide range of angles (0 to 360 degrees) and several \( U_e \) values:
 
 ```python
 ex = R0 * eu.cosuell(ag, Ue)
@@ -517,15 +517,15 @@ agn, R0n = eu.arctanuell(ey, ex, Ue)
 
 Finally, two types of errors are calculated:
 - **Error in Angle (degrees):** `errogr = (agngr - aggr)`
-- **Error in $ R_0 $ (percentage):** `errorR0 = (R0 - R0n) / R0 * 100`
+- **Error in \( R_0 \) (percentage):** `errorR0 = (R0 - R0n) / R0 * 100`
 ![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/errorarctanuell.png)
 
 
-This figure illustrates that the errors in the `arctanuell` function are in the range of $10^{-12}\%$. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
+This figure illustrates that the errors in the `arctanuell` function are in the range of \(10^{-12}\%\). This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
 ## Example of Use 06: Testing Resolution Errors in the Function `arctanuell_ue`
 
-The `arctanuell_ue` function is a key component of the **UlianovEllipse** library. It calculates the angle and the Ulianov Ellipse parameter $ U_e $ from given $ x $ and $ y $ coordinates and a reference distance $ R_0 $. This function is essential for accurately determining the properties of an ellipse based on its geometric parameters.
+The `arctanuell_ue` function is a key component of the **UlianovEllipse** library. It calculates the angle and the Ulianov Ellipse parameter \( U_e \) from given \( x \) and \( y \) coordinates and a reference distance \( R_0 \). This function is essential for accurately determining the properties of an ellipse based on its geometric parameters.
 
 #### Function Definition:
 ```python
@@ -547,10 +547,10 @@ def arctanuell_ue(self, y, x, R0):
     return angulo, Ue
 ```
 
-This function iteratively finds the angle and $ U_e $ value using the provided $ x $ and $ y $ coordinates, along with the reference distance $ R_0 $. Due to the iterative nature of the function, there may be rounding errors. The accuracy and reliability of the `arctanuell_ue` function can be tested using the following routine:
+This function iteratively finds the angle and \( U_e \) value using the provided \( x \) and \( y \) coordinates, along with the reference distance \( R_0 \). Due to the iterative nature of the function, there may be rounding errors. The accuracy and reliability of the `arctanuell_ue` function can be tested using the following routine:
 
 #### Testing Routine:
-The `test_arctanuell_ue` function evaluates the accuracy of the `arctanuell_ue` function by comparing the calculated and original angles and $ U_e $ values for various $ \alpha $ values.
+The `test_arctanuell_ue` function evaluates the accuracy of the `arctanuell_ue` function by comparing the calculated and original angles and \( U_e \) values for various \( \alpha \) values.
 
 ```python
 import numpy as np
@@ -641,7 +641,7 @@ test_arctanuell_ue()
 
 ### Explanation of the Code
 
-The `test_arctanuell_ue` function is designed to evaluate the accuracy of the `arctanuell_ue` function. This function calculates the inverse of the elliptical functions (`cosuell` and `sinuell`) for given $ x $ and $ y $ coordinates, returning the angle ($ \alpha $) and Ulianov Ellipse parameter ($ U_e $).
+The `test_arctanuell_ue` function is designed to evaluate the accuracy of the `arctanuell_ue` function. This function calculates the inverse of the elliptical functions (`cosuell` and `sinuell`) for given \( x \) and \( y \) coordinates, returning the angle (\( \alpha \)) and Ulianov Ellipse parameter (\( U_e \)).
 
 **Parameters:**
 - **`alpha_values`**: A list of angles in degrees to test the function.
@@ -649,24 +649,24 @@ The `test_arctanuell_ue` function is designed to evaluate the accuracy of the `a
 - **`R0`**: The reference radius for the ellipse.
 
 **Core Testing Process:**
-1. **Setting up $ U_e $ values:** The function defines a range of $ U_e $ values, including values close to the limiting value.
-2. **Generating Test Data:** For each $ \alpha $ value, the function generates several points on the ellipse:
-   - The coordinates $ x_i $ and $ y_i $ are calculated using `cosuell` and `sinuell` for the given angles and $ U_e $ values.
-   - These coordinates are then used in the `arctanuell_ue` function to calculate the angle and $ U_e $.
-3. **Calculating Errors:** The differences between the original and calculated angles (`errogr`) and the original and calculated $ U_e $ values (`errorR0`) are computed.
-4. **Tracking Maximum Errors:** The maximum errors for angle and $ U_e $, along with the corresponding angles, are recorded.
+1. **Setting up \( U_e \) values:** The function defines a range of \( U_e \) values, including values close to the limiting value.
+2. **Generating Test Data:** For each \( \alpha \) value, the function generates several points on the ellipse:
+   - The coordinates \( x_i \) and \( y_i \) are calculated using `cosuell` and `sinuell` for the given angles and \( U_e \) values.
+   - These coordinates are then used in the `arctanuell_ue` function to calculate the angle and \( U_e \).
+3. **Calculating Errors:** The differences between the original and calculated angles (`errogr`) and the original and calculated \( U_e \) values (`errorR0`) are computed.
+4. **Tracking Maximum Errors:** The maximum errors for angle and \( U_e \), along with the corresponding angles, are recorded.
 
 **Visualization:**
 The function generates two plots:
-1. **Error in Alpha:** Plots the error in the angle calculation ($ \alpha $) against the calculated $ U_e $ values.
-2. **Error in $ U_e $:** Plots the percentage error in the calculated $ U_e $ values against the original angle for different $ \alpha $ values.
+1. **Error in Alpha:** Plots the error in the angle calculation (\( \alpha \)) against the calculated \( U_e \) values.
+2. **Error in \( U_e \):** Plots the percentage error in the calculated \( U_e \) values against the original angle for different \( \alpha \) values.
 
-These plots provide insights into the accuracy and stability of the `arctanuell_ue` function across different $ \alpha $ and $ U_e $ values.
+These plots provide insights into the accuracy and stability of the `arctanuell_ue` function across different \( \alpha \) and \( U_e \) values.
 
 ### Test Results
-The graph produced shows the errors in both alpha and $ U_e $ across different test cases, helping to identify any precision issues or inconsistencies in the function's implementation.
+The graph produced shows the errors in both alpha and \( U_e \) across different test cases, helping to identify any precision issues or inconsistencies in the function's implementation.
 
 ![Result of this example](https://raw.githubusercontent.com/PolicarpoYU/images/main/errorarctanuellUe.png)
 
-This figure illustrates that the errors in the `arctanuell_ue` function are in the range of $10^{-10}\%$. This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
+This figure illustrates that the errors in the `arctanuell_ue` function are in the range of \(10^{-10}\%\). This level of accuracy is impressive and is consistent with the precision limits of the numpy library. To achieve even more precise results, it would be necessary to use libraries like `mpmath` which allow configurable precision with a large number of decimal places. The next version of the `ulianovellipse` library plans to include an object named `eump` that will use `mpmath` routines instead of numpy, offering precision up to 100 digits.
 
