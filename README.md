@@ -24,7 +24,7 @@ pip install ulianovellipse
 ```
 
 ## Examples of use
-In directory main\examples some python proram are presented:
+In directory main\examples some python programs are presented:
 allellipses.py,
 dudaflower.py,
 polianaflower.py,
