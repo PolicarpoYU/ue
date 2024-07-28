@@ -311,7 +311,7 @@ class UlianovEllipse:
         while Ue <= self.Lim_Ue:
             step+=1
             angulo, R0calc0 = self.arctanuell(y, x, Ue)
-            R0calc = self.calc_R0_np(x, y, angulo, Ue)
+            R0calc = self.calc_R0(x, y, angulo, Ue)
             erro = abs(R0calc - R0) / R0 * 100
             if erro < erromax:
                 erromax = erro 
