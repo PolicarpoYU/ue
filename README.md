@@ -7,7 +7,7 @@ Example of Polina Elliptical Flowers, Duda Elliptical Flowers and Salate Ellipti
 
 **[Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy)** Digital flower created by a python code that has a elliptical complex flower pattern, using two layers of ellipses (standard ellipse and Ulianov ellipse) with different size and color parameters
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
+  <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png" alt="Ulianov Ellipse Flower Patterns" width="400"/>
 </p>
 
 
