@@ -66,13 +66,16 @@ def Poliana_Flower(a, b, R0, Ue, ptn=24, gp=0, cla1="green", cla2="red", clb1="y
     plt.show()
 
 # Example usage with different parameters for each flower
-Poliana_Flower(a=80, b=60, R0=31.6, Ue=0.625, ptn=36, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=24)
-Poliana_Flower(a=240, b=30, R0=7.89, Ue=0.0521, ptn=24, gp=180, cla1='none', cla2='none', clb1='black', clb2='blue', num_flor_user=2)
-Poliana_Flower(a=80, b=30, R0=15.5, Ue=0.3535, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=3)
-Poliana_Flower(a=50, b=40, R0=12.6, Ue=0.512, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=4)
-Poliana_Flower(a=80, b=30, R0=15.5, Ue=0.3535, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=5)
-Poliana_Flower(a=240, b=20, R0=4.11, Ue=0.00625, ptn=36, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=77)
-Poliana_Flower(a=240, b=30, R0=7.89, Ue=0.0521, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=7)
-Poliana_Flower(a=80, b=30, R0=15.5, Ue=0.3535, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=8)
-Poliana_Flower(a=50, b=40, R0=12.6, Ue=0.512, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=9)
-Poliana_Flower(a=80, b=30, R0=15.5, Ue=0.3535, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=33)
+# Código para calcular R0 e Ue e exibir os resultados formatados
+
+Poliana_Flower(a=80, b=60, R0=0.268, Ue=1.991, ptn=36, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=24)
+Poliana_Flower(a=240, b=30, R0=2.25, Ue=1.975, ptn=24, gp=180, cla1='none', cla2='none', clb1='black', clb2='blue', num_flor_user=2)
+Poliana_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=3)  
+Poliana_Flower(a=50, b=40, R0=23.4, Ue=1.575, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=4)  
+Poliana_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=0, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=5)  
+Poliana_Flower(a=240, b=20, R0=0.627, Ue=1.992, ptn=36, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=77)
+Poliana_Flower(a=240, b=30, R0=2.25, Ue=1.975, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=7)
+Poliana_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=8)
+Poliana_Flower(a=50, b=40, R0=23.4, Ue=1.575, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=9)
+Poliana_Flower(a=80, b=30, R0=15.3, Ue=1.745, ptn=24, gp=180, cla1='green', cla2='red', clb1='black', clb2='blue', num_flor_user=33)
+

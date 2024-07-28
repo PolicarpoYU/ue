@@ -5,6 +5,18 @@ Example of Polina Elliptical Flowers, Duda Elliptical Flowers and Salate Ellipti
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
 </p>
 
+Polina Elliptical Flower:
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
+</p>
+
+
+Polina Elliptical Flower zoom:
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/PolianaFlowerZoom.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
+</p>
+
+
 ## Overview
 
 The **UlianovEllipse** library provides a comprehensive set of functions and classes for working with Ulianov elliptical functions. These functions are utilized in the Ulianov Orbital Model (UOM) to analyze and model elliptical orbits. The library also includes general utilities for handling and transforming elliptical shapes in various applications. 
