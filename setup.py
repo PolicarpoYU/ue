@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='ulianovellipse',
-    version='1.8.2',
+    version='1.8.3',
     description='Library for handling Ulianov elliptical functions',
     long_description=long_description,
     long_description_content_type='text/markdown',
