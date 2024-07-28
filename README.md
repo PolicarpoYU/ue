@@ -25,14 +25,14 @@ pip install ulianovellipse
 
 ## Examples of use
 In directory main\examples some python proram are presented:
-allellipses.py
-dudaflower.py
-polianaflower.py
-rotateellipses.py
-saleteflower.py
-testarctannuell.py
-testarctannuellue.py
-twoellipses.py
+allellipses.py,
+dudaflower.py,
+polianaflower.py,
+rotateellipses.py,
+saleteflower.py,
+testarctannuell.py,
+testarctannuellue.py.
+twoellipses.py.
 
 These are interesting example programs for using the ulianovellipse library and do the following:
 
