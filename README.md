@@ -9,9 +9,10 @@ The **UlianovEllipse** library provides a comprehensive set of functions and cla
 ## Key Features
 
 - **Ulianov Elliptical Cosine and Sine Functions:** These functions ([cosuell](#function-cosuell), [sinuell](#function-sinuell)) are used to calculate the cosine and sine of an angle for Ulianov ellipses, which differ from standard trigonometric functions.
-- **Parameter Conversion:** Methods like [calc_ue](#function-calc_ue) and [calc_ab](#function-calc_ab) convert between different sets of parameters (e.g., semi-major and semi-minor axes, Ulianov parameters).
-- **Axis Rotation:** The `rotate_axis` function allows for the rotation of coordinates, useful in transforming elliptical data.
-- **Elliptical Path Calculations:** Functions such as [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ulianov_ellipse_ab](#function-ulianov_ellipse_ab) provide tools for calculating points along an ellipse using various parameterizations.
+- **Parameter Conversion:** Methods like [calc_ue](#function-calc_ue) and [calc_ab](#function-calc_ab) convert between different sets of parameters (semi-major "a" and semi-minor axes "b" parametres to  Ulianov parameters "R0" and "Ue").
+- **Ulianov Elliptical Arctangent Functions:** The [arctanuell](#function-arctanuell) and [arctanuell_ue](#function-arctanuell_ue) functions allow the calculation of angles and parameters ("R0" and "Ue") from a given (x, y) point on the ellipse.
+- **Standard Ellipse Path Calculations:** Functions such as [ellipse_ue](#function-ellipse_ue) and [ellipse_ab](#function-ellipse_ab) provide tools for calculating points along an ellipse using standard parameterizations ("a" and "b").
+- **Ulianov Ellipse Path Calculations:** Functions such as [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ulianov_ellipse_ab](#function-ulianov_ellipse_ab) provide tools for calculating points along an ellipse using Ulianov Ellipse parameterizations ("R0" and "Ue").
 
 ## Getting Started
 
