@@ -54,7 +54,7 @@ x = a cos(α)
 
 y = b sin(α)
 
-This equations defines an ellipse over the (x,y) plane, centered at the origin (0,0), which intersects the x and y axes at the points: x = a, y = 0; x = 0, y = b; x = -a, y = 0; x = 0, y = -b. This ellipse is straightforward to implement, but in some cases (such as the orbits of planets around the sun), the ellipse must be centered at one of the foci, and the angle is defined differently.
+This equations define an ellipse over the (x,y) plane, centered at the origin (0,0), which intersects the x and y axes at the points: x = a, y = 0; x = 0, y = b; x = -a, y = 0; x = 0, y = -b. This ellipse is straightforward to implement, but in some cases (such as the orbits of planets around the sun), the ellipse must be centered at one of the foci, and the angle is defined differently.
 
 In the Ulianov ellipse model, the same ellipse is defined using a parameter called the Ulianov Elliptic Parameter Ue:
 
