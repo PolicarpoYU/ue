@@ -69,8 +69,8 @@ class UlianovEllipse:
         """
         if Ue > self.Lim_Ue:
             Ue = self.Lim_Ue
-        if Ue < 1 / self.Lim_Ue:
-            Ue = 1 / self.Lim_Ue
+        if Ue < - self.Lim_Ue:
+            Ue = - self.Lim_Ue
         return Ue
 
     def calc_ue(self, a, b):
@@ -133,6 +133,16 @@ class UlianovEllipse:
         return a, b
  
     def cosuell(self, alpha, Ue):
+        """
+        Calculates the Ulianov Ellipse cosine for a given angle and Ue.
+
+        Parameters:
+        alpha (float): Angle in radians.
+        Ue (float): Ellipse parameter Ue 
+
+        Returns:
+        float: Ulianov Ellipse Cosine value for the given angle and Ue.
+        """
         if Ue<0:
             return self.sinuell(alpha,abs(Ue))  
         tolerance = 1e-6  # Definir a tolerância para a verificação
@@ -147,6 +157,17 @@ class UlianovEllipse:
             return kx * (np.cos(alpha) - 1) + 1
 
     def sinuell(self, alpha, Ue):
+        """
+        Calculates the Ulianov Ellipse sine for a given angle and Ue.
+
+        Parameters:
+        alpha (float): Angle in radians.
+        Ue (float): Ellipse parameter Ue 
+
+        Returns:
+        float: Ulianov Ellipse Sine value for the given angle and Ue.
+        """
+        
         if Ue<0:
             return self.cosuell(alpha,abs(Ue))  
         tolerance = 1e-6  # Definir a tolerância para a verificação
@@ -196,7 +217,7 @@ class UlianovEllipse:
         Parameters:
         y (float): Y-coordinate.
         x (float): X-coordinate.
-        Ue (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+        Ue (float): Ellipse parameter Ue (ranges from 1 to 1.99999999999999).
 
         Returns:
         tuple: (angle, R0)
@@ -221,7 +242,7 @@ class UlianovEllipse:
         Calculates the angle for a given Ue and initial angle in radians.
 
         Parameters:
-        Ue (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+        Ue (float): Ellipse parameter Ue (ranges from -1.99999999999999 to 1.99999999999999).
         ang (float): Initial angle in radians.
 
         Returns:
@@ -240,7 +261,7 @@ class UlianovEllipse:
         Parameters:
         y (float): Y-coordinate.
         x (float): X-coordinate.
-        Ue (float): Ellipse parameter Ue (ranges from 0.500000000000002 to 1.99999999999999).
+        Ue (float): Ellipse parameter Ue (ranges from -1.99999999999999 to 1.99999999999999).
         precision (float): Desired precision for the calculation.
         msg (int): Verbosity level for debugging messages.
 
@@ -310,7 +331,11 @@ class UlianovEllipse:
         Returns:
         tuple: (angle, Ue)
         angle (float): Calculated angle in radians.
-        Ue (float): Calculated Ue value (ranges from 0.500000000000002 to 1.99999999999999).
+        Ue (float): Calculated Ue value (ranges from 1 to 1.99999999999999).
+                    Observation: For Ue>1 R0 define de minimum ellipse distance
+                                 For Ue<1 R0 define de maximum ellipse distance
+                                 In this way there is two possibilities to definr R0
+                                 but only the case Ue>1 is considere 
         """
         step=0
         erromax = 1e20
