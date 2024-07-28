@@ -6,7 +6,7 @@ Example of [Poliana Elliptical Flower](#example-of-use-02-polianaflowerpy), [Dud
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/Poliflowers.png" alt="Ulianov Ellipse Flower Patterns" width="600"/>
 </p>
 
-**[Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy)** Digital flower created by a python code that has a elliptical complex flower pattern, using two layers of ellipses (standard ellipse and Ulianov ellipse) with different size and color parameters
+**[Poliana Elliptical Flover:](#example-of-use-02-polianaflowerpy)** Digital flower created by a python code that has a elliptical complex flower pattern, using two layers of ellipses (standard ellipse and Ulianov ellipse) with different size and color parameters, drawing using functions [ulianov_ellipse_ue](#function-ulianov_ellipse_ue) and [ellipse_ab](#function-ellipse_ab) available in the UlianovEllipse library:
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolicarpoYU/images/main/polianaflower2.png" alt="Ulianov Ellipse Flower Patterns" width="400"/>
 </p>
