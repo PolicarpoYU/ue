@@ -188,7 +188,102 @@ This example demonstrates how to create a complex, visually appealing pattern us
 3. ![PoliFlower N°5](https://github.com/PolicarpoYU/ue/blob/main/polianaflower.png)
 
 
+## Example of Use 03:
+### Drawing Ellipses, Parabolas, and Hyperboles
 
+This example demonstrates how to use the `ulianovellipse` library to plot a series of Ulianov ellipses, along with parabolic and hyperbolic paths, by varying the Ulianov Ellipse Parameter (\( U_e \)).
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ulianovellipse import eu
+
+def all_ellipses(Ue_min=0, Ue_max=3, passo=0.1, esc=50, R0=1000):
+    """
+    Plots a series of Ulianov ellipses for a range of Ue values.
+
+    Parameters:
+    Ue_min (float): Minimum value of Ulianov Ellipse Parameter (default is 0).
+    Ue_max (float): Maximum value of Ulianov Ellipse Parameter (default is 3).
+    passo (float): Step size for incrementing Ue (default is 0.1).
+    esc (float): Scale factor for the plot limits (default is 50).
+    R0 (float): Minimum orbital distance, a fixed parameter for all ellipses (default is 1000).
+
+    The function generates a plot with ellipses corresponding to different Ue values, each having a unique color.
+    """
+    # Initialize the plot
+    plt.figure(figsize=(10, 6))
+    
+    # Generate Ue values from Ue_min to Ue_max with the given step size
+    Ue_values = np.arange(Ue_min, Ue_max + passo, passo)
+    
+    for Ue in Ue_values:
+        print(f"Drawing Ellipse Ue={Ue:.02}")
+        # Calculate the x and y coordinates of the Ulianov ellipse for the given Ue
+        UE_x, UE_y = eu.ulianov_ellipse_ue(R0, Ue, ang_ini_degrees=-1800, ang_fim_degrees=1800)
+        
+        # Choose colors and labels based on specific Ue values
+        if abs(Ue - 1) < 0.01:
+            plt.plot(UE_x, UE_y, color="red", label="Ue=1")
+        elif abs(Ue - 2) < 0.01:
+            plt.plot(UE_x, UE_y, color="red", label="Ue=2")
+        elif Ue > 2:
+            plt.plot(UE_x, UE_y, color="black", label="")
+        elif Ue > 1:
+            plt.plot(UE_x, UE_y, color="blue", label="")
+        else:        
+            plt.plot(UE_x, UE_y, color="green", label="")
+
+    # Adjust the plot's axis limits and scale
+    plt.axis('equal')
+    plt.xlim(-esc * R0, 2 * R0)
+    plt.ylim(-esc * R0, esc * R0)
+    
+    # Set plot labels and title
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Ulianov Ellipse for different Ue values')
+    plt.grid(True)
+    plt.show()
+
+# Call the function to generate the plot with default parameters
+all_ellipses()
+```
+
+### Explanation of the Code
+
+**Imports:**
+
+- `numpy` and `matplotlib.pyplot` are standard libraries for numerical calculations and plotting in Python.
+- `eu` is imported from the `ulianovellipse` package, providing functions to compute parameters for the Ulianov ellipse.
+
+**Function `all_ellipses`:**
+
+- **Parameters:**
+  - `Ue_min`, `Ue_max`: Define the range of Ulianov Ellipse Parameter values to plot.
+  - `passo`: Step size for the increment of \( U_e \) values.
+  - `esc`: Scale factor to adjust the plot limits.
+  - `R0`: Fixed parameter representing the minimum orbital distance for all ellipses.
+
+- **Calculations:**
+  - `Ue_values`: Array of \( U_e \) values ranging from `Ue_min` to `Ue_max` with step size `passo`.
+  - For each \( U_e \) value, the function calculates the coordinates of the Ulianov ellipse using `ulianov_ellipse_ue`.
+
+- **Plotting:**
+  - The ellipses are plotted with different colors:
+    - Green for \( U_e < 1 \)
+    - Blue for \( 1 < U_e < 2 \)
+    - Black for \( U_e > 2 \)
+    - Red highlights are added for specific \( U_e \) values, such as 1 and 2.
+  - The plot includes labels for the axes, a title, and a grid for better visualization.
+
+**Visual Example:**
+
+The plot shows various conic sections (ellipses, parabolas, hyperbolas) depending on the value of \( U_e \). These curves are essential in orbital mechanics and physics, representing different types of orbital paths.
+
+![Result of this example](https://github.com/PolicarpoYU/ue/blob/main/allellipses.png)
+
+This example showcases the versatility of the `ulianovellipse` library in visualizing different conic sections, demonstrating the unique properties of the Ulianov Ellipse Parameter.
 
 
 
